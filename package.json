@@ -2,10 +2,18 @@
   "name": "store",
   "version": "1.0.0",
   "description": "project shoping",
-  "main": "main.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon -e html,css,js,json,env index.js"
   },
   "author": "rasool abdi",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "auto-bind": "^4.0.0",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.1",
+    "mongoose": "^8.2.2"
+  }
 }
