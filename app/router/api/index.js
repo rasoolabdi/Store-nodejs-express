@@ -4,7 +4,7 @@ const homeController = require("../../controllers/api/home.controller");
 
 const router = Router();
 
-router.get("/" , homeController.indexPage);
+router.post("/" , homeController.indexPage);
 
 module.exports = {
     HomeRoutes : router
