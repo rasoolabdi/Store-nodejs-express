@@ -8,8 +8,8 @@ class HomeController extends Controller {
 
     async indexPage (req,res,next) {
         try {
-            // const result = await authSchema.validateAsync(req.body);
-            // console.log(result);
+            const result = await authSchema.validateAsync(req.body);
+            console.log(result);
             return res.status(200).send("Index page")
         }
         catch(error) {

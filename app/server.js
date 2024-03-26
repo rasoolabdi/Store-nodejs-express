@@ -1,14 +1,11 @@
 const express = require("express");
 const {default: mongoose} = require("mongoose");
 const path = require("path");
-const { AllRoutes } = require("./router/router");
 const morgan = require("morgan");
 const createHttpError = require("http-errors");
 const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
-
-
-
+const { AllRoutes } = require("./router/router");
 
 module.exports = class Application {
     #app = express();
@@ -23,7 +20,6 @@ module.exports = class Application {
         this.createServer();
         this.createRoutes();
         this.errorHandling();
-
     }
 
     configApplication() {
@@ -36,11 +32,11 @@ module.exports = class Application {
                 info: {
                     title: "Shopping",
                     version: "2.0.0",
-                    description: "فروشگاه مجازی فروش نمونه سوال",
+                    description: "فروشگاه مجازی ",
                     contact: {
                         name: "rasool abdi",
                         url: "http://localhost:5000",
-                        email: "M0rd00r@yahoo.com"
+                        email: ""
                     }
                 },
                 servers: [
@@ -78,6 +74,7 @@ module.exports = class Application {
 
         process.on("SIGINT" , async () => {
             await mongoose.connection.close();
+            console.log("disconnect DB")
             process.exit(0);
         })
     }
@@ -102,26 +99,3 @@ module.exports = class Application {
         })
     }
 }
-
-
-
-
-
-
-
-
-// this.#app.use((req,res,next) => {
-//     return res.status(404).json({
-//       statusCode : 404,
-//       message: "صفحه مورد نظر یافت نشد ."
-//     })
-//   });
-
-//   this.#app.use((error,req,res,next) => {
-//       const statusCode = error.status || 500;
-//       const message = error.message || "Internal server Error";
-//       return res.status(statusCode).json({
-//           statusCode,
-//           message
-//       })
-//   })

@@ -5,8 +5,8 @@ const { UserAuthRoutes } = require("./user/auth");
 
 
 const router = Router();
-router.use("/" , HomeRoutes);
 router.use("/user" , UserAuthRoutes);
+router.use("/" , HomeRoutes);
 
 module.exports = {
     AllRoutes: router

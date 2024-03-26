@@ -1,13 +1,13 @@
-const { Schema, model } = require("mongoose");
+const {default: mongoose } = require("mongoose");
 
 
 
 
-const PaymentSchema = new Schema({
+const PaymentSchema = new mongoose.Schema({
 
 
 
 });
 
-const PaymentModel = model("payment" , PaymentSchema);
+const PaymentModel = mongoose.model("payment" , PaymentSchema);
 module.exports = PaymentModel;

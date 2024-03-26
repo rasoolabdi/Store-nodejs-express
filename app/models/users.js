@@ -1,25 +1,26 @@
-const { Schema, model } = require("mongoose");
+const {default: mongoose, Schema } = require("mongoose");
 
+const OTPSchema = new Schema({
+    code: {type: String , required: false , default : undefined},
+    expiresIn: {type: Number , required: false , default: 0}
+})
 
-
-
-const UserSchema = new Schema({
-    first_name: {type: String , required: true},
-    last_name: {type: String , required: true},
+const UserSchema = new mongoose.Schema({
+    first_name: {type: String},
+    last_name: {type: String},
     username: {type: String , required: true , lowercase: true},
     email: {type: String , required: true , lowercase: true},
-    mobile: {type: String , required: true},
-    password: {type: String , required: false},
-    otp : {typ: Object ,required: true,  default : {
-        code: 0,
-        expiresIn: 0
-    }},
-    bills: {type: [] , default: [] , required: false},
-    discount: {type: Number , default: 0 , required: false},
-    birthday: {type: String , required: false},
-    roles: {type: [String] , default: ["USER"] , required: false},
+    mobile: {type: String},
+    password: {type: String},
+    otp : {
+        type: OTPSchema
+    }, 
+    bills: {type: [] , default: []},
+    discount: {type: Number , default: 0},
+    birthday: {type: String},
+    roles: {type: [String] , default: ["USER"]},
 
 });
 
-const UserModel = model("user" , UserSchema);
+const UserModel = mongoose.model("user" , UserSchema);
 module.exports = UserModel;

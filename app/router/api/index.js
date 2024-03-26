@@ -6,8 +6,8 @@ const router = Router();
 /**
  * @swagger
  * tags:
- *  name: IndexPage
- * description: apis page main route
+ *   name: IndexPage
+ *   description: apis page main route
  */
 
 /**

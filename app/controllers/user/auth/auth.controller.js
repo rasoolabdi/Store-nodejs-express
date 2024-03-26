@@ -60,7 +60,7 @@ class UserAuthController extends Controller {
 
     async updateUser(mobile , objectData= {}) {
         Object.keys(objectData).forEach(key => {
-            if(["" , " " , 0 , null , undefined , "0" , NaN].includes(objectData[key])) {
+            if(["" , " " , null ,0 , "0", undefined , NaN].includes(objectData[key])) {
                 delete objectData[key];
             }
             

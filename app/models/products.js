@@ -1,24 +1,24 @@
-const { Schema, model, Types } = require("mongoose");
+const {default: mongoose } = require("mongoose");
 
 
-const ProductSchema = new Schema({
+const ProductSchema = new mongoose.Schema({
     title: {type: String , required: true},
     short_desc: {type: String, required: true},
     total_desc: {type: String , required: true},
     images: {type: [String], required: true},
-    tags: {type: [String] , required: false , default: []},
-    category: {type: Types.ObjectId , required: true},
-    comments: {type: [] , required: false , default: []},
-    like: {type: [Types.ObjectId] , required: false , default: []},
-    deslike: {type: [Types.ObjectId] , required: false, default: []},
-    bookmark: {type: [Types.ObjectId] , required: false , default: []},
-    price: {type: Number , required: false , default: 0},
-    discount: {type: Number , required: false , default: 0},
-    count: {type: Number , required: false},
+    tags: {type: [String] , default: []},
+    category: {type: mongoose.Types.ObjectId , required: true},
+    comments: {type: [] , default: []},
+    like: {type: [mongoose.Types.ObjectId]  , default: []},
+    deslike: {type: [mongoose.Types.ObjectId] , default: []},
+    bookmark: {type: [mongoose.Types.ObjectId]  , default: []},
+    price: {type: Number , default: 0},
+    discount: {type: Number, default: 0},
+    count: {type: Number},
     type: {type: String , required: true},
-    time : {type: String , required: false},
-    format: {type: String , required: false},
-    teacher: {type: Types.ObjectId , required: true},
+    time : {type: String},
+    format: {type: String},
+    teacher: {type: mongoose.Types.ObjectId , required: true},
     feture: {type: Object , default: {
         length: "",
         height: "",
@@ -27,8 +27,8 @@ const ProductSchema = new Schema({
         colors: [],
         model: [],
         madein: "",
-    }}
+    }},
 });
 
-const ProductModel = model("product" , ProductSchema);
+const ProductModel = mongoose.model("product" , ProductSchema);
 module.exports = ProductModel;
