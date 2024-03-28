@@ -12,11 +12,11 @@ const router = Router();
 
 /**
  * @swagger
- *  /user/login:
+ *  /user/get-otp:
  *      post:
  *          tags: [USER-Authentication]
  *          summary: login user in userpanel with phone number
- *          description: OTP login
+ *          description: Get OTP for login
  *          parameters: 
  *              -   name: mobile
  *                  description: fa-IRI phoneNumber
@@ -35,7 +35,33 @@ const router = Router();
  */
 
 
-router.post("/login" , userAuthController.login);
+router.post("/get-otp" , userAuthController.getOtp);
+
+/**
+ * @swagger 
+ *  /user/check-otp:
+ *      post:
+ *          tags: [USER-Authentication]
+ *          summary: check-otp value in user controller
+ *          description: check otp with code mobile 
+ *          parameters:
+ *              -   name: mobile
+ *                  description: fa-IRI phoneNumber
+ *                  in: formData
+ *                  required: true
+ *                  type: string
+ *              -   name: code
+ *                  description: inter sms code
+ *                  in: formData
+ *                  required: true
+ *                  type: string
+ *          responses:
+ *              200:
+ *                  description: checked successfully otp code
+ */
+
+
+router.post("/check-otp" , userAuthController.checkOtp);
 
 
 module.exports = {

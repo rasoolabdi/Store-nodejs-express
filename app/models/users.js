@@ -8,8 +8,8 @@ const OTPSchema = new Schema({
 const UserSchema = new mongoose.Schema({
     first_name: {type: String},
     last_name: {type: String},
-    username: {type: String , required: true , lowercase: true},
-    email: {type: String , required: true , lowercase: true},
+    username: {type: String , required: false , lowercase: true},
+    email: {type: String , required: false , lowercase: true},
     mobile: {type: String},
     password: {type: String},
     otp : {
