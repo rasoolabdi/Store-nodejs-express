@@ -22,6 +22,7 @@ module.exports = class Application {
         this.createServer();
         this.createRoutes();
         this.errorHandling();
+        this.initRedis();
     }
 
     configApplication() {
@@ -80,6 +81,11 @@ module.exports = class Application {
             console.log("disconnect DB")
             process.exit(0);
         })
+    }
+
+    initRedis() {
+        require("./utils/init_redis");
+
     }
 
     createRoutes() {
