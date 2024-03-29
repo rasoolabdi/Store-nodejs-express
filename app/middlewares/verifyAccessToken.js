@@ -8,7 +8,7 @@ function VerifyAccessToken (req,res,next) {
     console.log(headers)
     const [bearer , token] = headers?.["access-token"]?.split(" ") || [];
     // console.log(bearer , token)
-    if(token && bearer?.toLowerCase() === "bearer") {
+    if(token && ["Bearer" , "bearer"].includes(bearer)) {   //&& bearer?.toLowerCase() === "bearer"
         JWT.verify(token , ACCESS_TOKEN_SECRET_KEY , async (error , payload) => {
             if(error) {
                 return next(createHttpError.Unauthorized("لطفا وارد حساب کاربری خود شوید ."))
