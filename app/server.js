@@ -85,6 +85,7 @@ module.exports = class Application {
 
     initRedis() {
         require("./utils/init_redis");
+        
 
     }
 

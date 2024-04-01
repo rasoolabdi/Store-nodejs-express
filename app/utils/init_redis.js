@@ -1,5 +1,5 @@
 const redisDB = require("redis");
-const redisClient = redisDB.createClient();
+const redisClient = redisDB.createClient({legacyMode: true});
 redisClient.connect();
 redisClient.on("connect" , () => console.log("connect to redis"));
 redisClient.on("ready" , () => console.log("connected to redis ready ti use ..."));

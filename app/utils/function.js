@@ -49,13 +49,17 @@ function SignRefreshToken(userId) {
 
 function VerifyRefreshToken(token) {
     return new Promise((resolve , reject) => {
-        JWT.verify(token, REFRESH_TOKEN_SECRET_KEY , async (error , payload) => {
-            if(error) reject(createHttpError.Unauthorized("لطفا وارد حساب کاربری شوید ."))
+        JWT.verify(token, REFRESH_TOKEN_SECRET_KEY , async (err , payload) => {
+            if(err) reject(createHttpError.Unauthorized("لطفا وارد حساب کاربری شوید ."))
             const {mobile} = payload || {};
             const user = await UserModel.findOne({mobile} , {password: 0 , otp: 0});
             if(!user) reject(createHttpError.Unauthorized("حساب کاربری مورد نظر یافت نشد ."));
-            const refreshToken = await redisClient.get(user._id);
-            if(token === refreshToken) return resolve(mobile)
+            const refreshToken = await redisClient.get(user._id , (error , data) => {
+                console.log(data);
+                console.log(error);
+            });
+            console.log(refreshToken);
+            if(token === refreshToken) return resolve(mobile);
             reject(createHttpError.Unauthorized("ورود مجدد به حساب کاربری انجام نشد ."));
         })
     })
