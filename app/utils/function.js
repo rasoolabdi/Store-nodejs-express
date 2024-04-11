@@ -39,10 +39,10 @@ function SignRefreshToken(userId) {
         const options = {
             expiresIn: "1y"
         }
-        JWT.sign(payload , REFRESH_TOKEN_SECRET_KEY , options , async (error , token) => {
-            if(error) reject(createHttpError.InternalServerError("خطا سمت سرور رخ داده است"));
-            await redisClient.SETEX(userId , (365*24*60*60) , token);
-            resolve(token);
+        JWT.sign(payload , REFRESH_TOKEN_SECRET_KEY , options , async (err , token) => {
+            if(err) reject(createHttpError.InternalServerError("خطا سمت سرور رخ داده است"));
+            await redisClient.SETEX(userId.toString() , (365*24*60*60) , token);
+            return resolve(token);
         })  
     })
 }
@@ -53,13 +53,14 @@ function VerifyRefreshToken(token) {
             if(err) reject(createHttpError.Unauthorized("لطفا وارد حساب کاربری شوید ."))
             const {mobile} = payload || {};
             const user = await UserModel.findOne({mobile} , {password: 0 , otp: 0});
+            console.log("user" + user);
             if(!user) reject(createHttpError.Unauthorized("حساب کاربری مورد نظر یافت نشد ."));
-            const refreshToken = await redisClient.get(user._id , (error , data) => {
-                console.log(data);
-                console.log(error);
-            });
-            console.log(refreshToken);
-            if(token === refreshToken) return resolve(mobile);
+            const userId = user._id.toString();
+            console.log("userId "+userId);
+            console.log(typeof userId);
+            const refreshToken = await redisClient.get(userId);
+            console.log("refreshToken  " + refreshToken);
+            if(token === refreshToken) return resolve(mobile)
             reject(createHttpError.Unauthorized("ورود مجدد به حساب کاربری انجام نشد ."));
         })
     })

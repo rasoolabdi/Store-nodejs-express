@@ -48,10 +48,10 @@ class UserAuthController extends Controller {
                throw new  createHttpError.Unauthorized("کد شما منقضی شده است")
             }
             const accessToken = await SignAccessToken(user._id);
-            const newRefreshToken = await SignRefreshToken(user._id);
+            const refreshToken = await SignRefreshToken(user._id);
             const data = {
                 accessToken,
-                refreshToken : newRefreshToken
+                refreshToken 
             }
             return res.json({data})
         }
@@ -100,6 +100,7 @@ class UserAuthController extends Controller {
     async refreshToken(req,res,next) {
         try {
             const {refreshToken} = req.body;
+            console.log(req.body);
             const mobile = await VerifyRefreshToken(refreshToken);
             const user = await UserModel.findOne({mobile});
             const accessToken = await SignAccessToken(user._id);

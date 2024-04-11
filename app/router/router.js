@@ -6,10 +6,11 @@ const { DeveloperRoutes } = require("./user/developer.routes");
 const router = Router();
 
 (async() => {
-    await redisClient.set("key" , "hello");
-    const value = await redisClient.get("key");
+    await redisClient.set("hi" , "hello");
+    const value = await redisClient.get("hi");
     console.log(value);
-})()
+})();
+
 
 router.use("/user" , UserAuthRoutes);
 router.use("/developer" , DeveloperRoutes);
