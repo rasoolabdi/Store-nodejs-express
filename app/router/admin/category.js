@@ -28,6 +28,67 @@ const router = Router();
 
 router.post("/add" , categoryController.addCategory);
 
+/**
+ * @swagger
+ *  /admin/category/parents:
+ *      get:
+ *          tags: [Admin-Panel]
+ *          summary: get All Parents of Category or Category Heads
+ *          responses: 
+ *              200:
+ *                  description: get parents successfully
+ */
+router.get("/parents" , categoryController.getAllParents);
+
+/**
+ * @swagger
+ *  /admin/category/children/{parent}:
+ *      get:
+ *          tags: [Admin-Panel]
+ *          summary: get All children of parents category
+ *          parameters: 
+ *              -   name: parent
+ *                  in: path
+ *                  required: true
+ *                  type: string
+ *          responses: 
+ *              200:
+ *                 description: get children of category successfully
+ */
+
+router.get("/children/:parent" , categoryController.getChildOfParents);
+
+/**
+ * @swagger
+ *  /admin/category/allCategories:
+ *      get:
+ *          tags: [Admin-Panel]
+ *          summary: get All Categories
+ *          responses:
+ *              200:
+ *                  description: Get All Categories successfully
+ */
+router.get("/allCategories" , categoryController.getAllCategory);
+
+/**
+ * @swagger
+ *  /admin/category/remove/{id}:
+ *      delete:
+ *          tags: [Admin-Panel]
+ *          summary: remove Category by ObjectId
+ *          parameters: 
+ *              -   name: id
+ *                  in: path
+ *                  type: string
+ *                  required: true
+ *                  
+ *          responses: 
+ *              200:
+ *                  description: remove category successfully
+ */
+
+router.delete("/remove/:id" , categoryController.removeCategory);
+
 module.exports = {
     CategoryRoutes: router
 }
