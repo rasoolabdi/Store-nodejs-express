@@ -3,6 +3,7 @@ const { HomeRoutes } = require("./api");
 const { UserAuthRoutes } = require("./user/auth");
 const redisClient = require("../utils/init_redis");
 const { DeveloperRoutes } = require("./user/developer.routes");
+const { AdminRoutes } = require("./admin/admin.routes");
 const router = Router();
 
 (async() => {
@@ -12,9 +13,10 @@ const router = Router();
 })();
 
 
+router.use("/" , HomeRoutes);
 router.use("/user" , UserAuthRoutes);
 router.use("/developer" , DeveloperRoutes);
-router.use("/" , HomeRoutes);
+router.use("/admin" , AdminRoutes);
 
 module.exports = {
     AllRoutes: router
