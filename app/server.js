@@ -39,13 +39,13 @@ module.exports = class Application {
                     description: "فروشگاه مجازی ",
                     contact: {
                         name: "rasool abdi",
-                        url: "http://localhost:5000",
+                        url: "http://localhost:5001",
                         email: ""
                     }
                 },
                 servers: [
                     {
-                        url: "http://localhost:5000"
+                        url: "http://localhost:5001"
                     }
                 ],
             },

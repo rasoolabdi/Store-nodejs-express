@@ -2,6 +2,7 @@ const createHttpError = require("http-errors");
 const CategoryModel = require("../../models/categories");
 const Controller = require("../controller");
 const { addCategorySchema } = require("../../validators/admin/category.schema");
+const { default: mongoose, Types } = require("mongoose");
 
 
 
@@ -31,7 +32,12 @@ class CategoryController extends Controller {
         try {
             const {id} = req.params;
             const category = await this.checkExistCategory(id);
-            const deleteResult = await CategoryModel.deleteOne({_id: category._id});
+            const deleteResult = await CategoryModel.deleteMany({
+                $or: [
+                    {_id: category._id},
+                    {parent: category._id}
+                ]
+            })
             if(deleteResult.deletedCount == 0) {
                 throw createHttpError.InternalServerError("حذف دسته بندی انجام نشد .");
             }
@@ -58,27 +64,61 @@ class CategoryController extends Controller {
 
     async getAllCategory(req,res,next) {
         try {
-            const category = await CategoryModel.aggregate([
-                {
-                    $lookup: {
-                        from: "categories",
-                        localField: "_id",
-                        foreignField: "parent",
-                        as: "children"
-                    },
-                },
-                {
-                    $project: {
-                        __v: 0,
-                        "children.__v" : 0,
-                        "children.parent": 0
-                    }
-                }
-            ]);
+            // const category = await CategoryModel.aggregate([
+            //     {
+            //         $lookup: {
+            //             from: "categories",
+            //             localField: "_id",
+            //             foreignField: "parent",
+            //             as: "children"
+            //         },
+            //     },
+            //     {
+            //         $project: {
+            //             __v: 0,
+            //             "children.__v" : 0,
+            //             "children.parent": 0
+            //         }
+            //     },
+            //     {
+            //         $match: {
+            //             parent: undefined
+            //         }
+            //     }
+            // ]);
+
+            // const category = await CategoryModel.aggregate([
+            //     {
+            //         $graphLookup: {
+            //             from: "categories",
+            //             startWith : "$_id",
+            //             connectFromField: "_id",
+            //             connectToField: "parent",
+            //             maxDepth: 5,
+            //             depthField: "depth",
+            //             as: "children"
+            //         },
+            //     },
+            //     {
+            //         $project: {
+            //             __v: 0,
+            //             "children.__v" : 0,
+            //             "children.parent": 0
+            //         }
+            //     },
+            //     {
+            //         $match: {
+            //             parent: undefined
+            //         }
+            //     }
+            // ]);
+
+
+            const categories = await CategoryModel.find({parent: undefined} , {__v: 0})
             return res.status(200).json({
                 data: {
                     statusCode: 200,
-                    category
+                    categories
                 }
             })
         }
@@ -87,9 +127,34 @@ class CategoryController extends Controller {
         }
     };
 
-    getCategoryById(req,res,next) {
+    async getCategoryById(req,res,next) {
         try {
-
+            const {id: _id} = req.params;
+            const category = await CategoryModel.aggregate([
+                {
+                    $match: { _id: new Types.ObjectId(_id) }
+                },
+                {
+                    $lookup :{
+                        from: "categories",
+                        localField: "_id",
+                        foreignField: "parent",
+                        as: "children"
+                    }
+                },
+                {
+                  $project : {
+                    __v: 0,
+                    "children.__v" : 0,
+                    "children.__parent" : 0
+                  }  
+                }
+            ])
+            return res.status(200).json({
+                data: {
+                    category
+                }
+            })
         }
         catch(e) {
             next(e);
