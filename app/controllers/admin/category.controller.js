@@ -1,7 +1,7 @@
 const createHttpError = require("http-errors");
 const CategoryModel = require("../../models/categories");
 const Controller = require("../controller");
-const { addCategorySchema } = require("../../validators/admin/category.schema");
+const { addCategorySchema, updateCategorySchema } = require("../../validators/admin/category.schema");
 const { default: mongoose, Types } = require("mongoose");
 
 
@@ -53,9 +53,23 @@ class CategoryController extends Controller {
         }
     }
 
-    editCategory(req,res,next) {
+    async editCategoryTitle(req,res,next) {
         try {
-
+            const {id} = req.params;
+            const {title} = req.body;
+            const categories = await this.checkExistCategory(id);
+            await updateCategorySchema.validateAsync(req.body);
+            const resultOfUpdate = await CategoryModel.updateOne({_id: id} , { $set: {title} });
+            console.log(resultOfUpdate);
+            if(resultOfUpdate.modifiedCount == 0) {
+                throw new createHttpError.InternalServerError("به روز رسانی انجام نشد.")
+            }
+            return res.status(200) .json({
+                data : {
+                    statusCode: 200,
+                    message: "به روز رسانی با موفقیت انجام شد ."
+                }
+            })
         }
         catch(e) {
             next(e);
@@ -127,6 +141,27 @@ class CategoryController extends Controller {
         }
     };
 
+    async getAllCategoryWithoutPopulate(req,res,next) {
+        try{
+            const categories = await CategoryModel.aggregate([
+                {
+                    $match: {}
+                }
+            ]);
+
+            return res.status(200).json({
+                data : {
+                    statusCode: 200,
+                    categories
+                }
+            })
+        }
+        catch(e) {
+            next(e);
+        }
+    }
+
+
     async getCategoryById(req,res,next) {
         try {
             const {id: _id} = req.params;
@@ -152,6 +187,7 @@ class CategoryController extends Controller {
             ])
             return res.status(200).json({
                 data: {
+                    statusCode: 200,
                     category
                 }
             })
