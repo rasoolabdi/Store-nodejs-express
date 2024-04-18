@@ -12,18 +12,26 @@ class AdminBlogController extends Controller {
             const blogDataBody = await createBlogSchema.validateAsync(req.body);
             req.body.image = path.join(blogDataBody.fileUploadPath , blogDataBody.filename);
             req.body.image = req.body.image.replace(/\\/g, "/");
-            const {title, short_text , category , tags} = blogDataBody;
+            const {title, short_text,text , category , tags} = blogDataBody;
             const image = req.body.image;
             // console.log(path.join(__dirname , image));
             // console.log(image);
-            const blog = await BlogModel.create({
+            const author = req.user._id;
+            await BlogModel.create({
                 title,
+                text,
                 short_text,
                 tags,
                 image,
-                category
+                category,
+                author
             });
-            return res.json({blogDataBody , image: req.body.image});
+            return res.status(201).json({
+                data: {
+                   statusCode: 201,
+                     message: "بلاگ با موفقیت ایجاد گردید ."
+               }
+            });
         }
         catch(e) {
             deleteFileInPublic(req.body.image);
@@ -44,10 +52,53 @@ class AdminBlogController extends Controller {
 
     async getListOfBlogs(req,res,next) {
         try {
+            const blogs = await BlogModel.aggregate([
+                {
+                    $match: {
+
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "users",
+                        foreignField: "_id",
+                        localField: "author",
+                        as: "author"
+                    }
+                },
+                {
+                    $unwind: "$author"
+                },
+                {
+                    $project : {
+                        "author.__v" :0,
+                        "author.bills": 0,
+                        "author.discount": 0,
+                        "author.otp": 0,
+                        "author.roles": 0,
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "categories",
+                        foreignField: "_id",
+                        localField: "category",
+                        as: "category"
+                    }
+                },
+                {
+                    $unwind: "$category"
+                },
+                {
+                    $project: {
+                        "category.__v": 0
+                    }
+                }
+            ]);
             return res.status(200).json({
-                statusCode: 200,
                 data: {
-                    blogs: ["sla"]
+                    statusCode: 200,
+                    blogs
                 }
             })
         }

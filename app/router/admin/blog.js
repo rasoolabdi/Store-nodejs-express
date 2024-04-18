@@ -11,6 +11,13 @@ const router = Router();
  *      get:
  *          tags: [Blog(AdminPanel)]
  *          summary: get all Blogs
+ *          parameters:
+ *              -   name: access-token
+ *                  in: header
+ *                  example: Bearer token
+ *                  value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIwOTMzMTQyOTI4NCIsImlhdCI6MTcxMzQyMjY3OSwiZXhwIjoxNzEzNDI5ODc5fQ.Yy-Xrf3GYSiAX46NSIlqvzWQ-x-Z38zeDVe9vHkLL7k
+ *                  type: string
+ *                  required: true
  *          responses: 
  *              200:
  *                  description: getAllBlogs successfully
@@ -26,6 +33,11 @@ router.get("/" , AdminBlogController.getListOfBlogs);
  *          consumes:
  *              -   multipart/form-data
  *          parameters: 
+ *              -   name: access-token
+ *                  in: header
+ *                  example: Bearer token
+ *                  type: string
+ *                  required: true
  *              -   name: title
  *                  in: formData
  *                  required: true

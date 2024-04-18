@@ -29,7 +29,7 @@ const storage = multer.diskStorage({
 });
 
 function fileFilter(req,file , cb) {
-    console.log(file);
+    // console.log(file);
     const ext = path.extname(file.originalname);
     const mimetypes = [".jpg" , ".jpeg" , ".png" , ".webp"];
     if(mimetypes.includes(ext)) {
@@ -40,7 +40,8 @@ function fileFilter(req,file , cb) {
     }
 }
 
-const uploadFile = multer({storage , fileFilter});
+const maxSize = 400 * 1000;
+const uploadFile = multer({storage , fileFilter , limits: {fileSize: maxSize}});
 module.exports = {
     uploadFile
 }

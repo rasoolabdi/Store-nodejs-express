@@ -50,6 +50,7 @@ class UserAuthController extends Controller {
             const accessToken = await SignAccessToken(user._id);
             const refreshToken = await SignRefreshToken(user._id);
             const data = {
+                message: "به کافه کد خوش آمدید ",
                 accessToken,
                 refreshToken 
             }
