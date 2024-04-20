@@ -1,3 +1,4 @@
+const createHttpError = require("http-errors");
 const BlogModel = require("../../models/blogs");
 const { deleteFileInPublic } = require("../../utils/function");
 const { createBlogSchema } = require("../../validators/admin/blog.schema");
@@ -42,7 +43,14 @@ class AdminBlogController extends Controller {
     
     async getOneBlogById(req,res,next) {
         try {
-
+            const {id} = req.params;
+            const blog = await this.findBlog({_id: id});
+            return res.status(200).json({
+                data: {
+                    statusCode:200,
+                    blog
+                }
+            })
         }
         catch(e) {
             next(e);
@@ -120,7 +128,18 @@ class AdminBlogController extends Controller {
 
     async deleteBlogById(req,res,next) {
         try {
-
+            const {id} = req.params;
+            await this.findBlog(id);
+            const result = await BlogModel.deleteOne({_id: id});
+            if(result.deletedCount == 0) {
+                throw createHttpError.InternalServerError("بلاگ حذف نشد. مجدد تلاش کنید .")
+            }
+            return res.status(200).json({
+                data: {
+                    statusCode: 200,
+                    message: "بلاگ یا مقاله با موفقیت حذف گردید ."
+                }
+            })
         }
         catch(e) {
             next(e);
@@ -130,11 +149,56 @@ class AdminBlogController extends Controller {
 
     async updateBlogById(req,res,next) {
         try {
+            const {id} = req.params;
+            await this.findBlog(id);
+            if(req?.body?.fileUploadPath && req?.body?.filename) {
+                req.body.image = path.join(req.body.fileUploadPath , req.body.filename);
+                req.body.image = req.body.image.replace(/\\/g, "/");
+            }
+            const data = req.body;
+            let nullishData = ["" ," " ,'' , ' ' , 0 , "0", null , undefined];
+            let blackListFields = ["bookmarks" ,"deslikes" , "comments" , "likes" , "author"];
+            Object.keys(data).forEach((key) => {
+                if(blackListFields.includes(key)) {
+                    delete data[key];
+                }
+                if(typeof data[key] === "string") {
+                    data[key] = data[key].trim();
+                }
+                if(Array.isArray(data[key] && Array.length > 0)) {
+                    data[key] = data[key].map((item) => item.trim());
+                }
+                if(nullishData.includes(data[key])) {
+                    delete data[key]
+                }
+            });
 
+            const UpdateBlog = await BlogModel.updateOne({_id: id} , {$set: data});
+            if(UpdateBlog.modifiedCount == 0) {
+                throw createHttpError.InternalServerError("آپدیت انجام نشد")
+            }
+            return res.status(200).json({
+                data: {
+                    statusCode: 200,
+                    message: "آپدیت بلاگ با موفقیت انجام شد ."
+                }
+            })
         }
         catch(e) {
+            deleteFileInPublic(req?.body?.image);
             next(e);
         }
+    }
+
+    async findBlog(id) {
+        // const path = await BlogModel.findOne(query).getPopulatedPaths();
+        // console.log(path);
+        const blog = await BlogModel.findById(id).populate([{path: "category", select: {title: 1}} , {path: "author" , select: ['mobile' , 'first_name' , 'last_name' , 'username']}]);
+        if(!blog) {
+            throw createHttpError.NotFound("بلاگ یا مقاله ایی با این مشخصات یافت نشد .")
+        }
+        delete blog.category.children;
+        return blog;
     }
 }
 

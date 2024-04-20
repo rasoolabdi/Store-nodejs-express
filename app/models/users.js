@@ -20,7 +20,13 @@ const UserSchema = new mongoose.Schema({
     birthday: {type: String},
     roles: {type: [String] , default: ["USER"]},
 
+},{
+    timestamps:true,
+    toJSON: {
+        virtuals: true
+    }
 });
+
 
 const UserModel = mongoose.model("user" , UserSchema);
 module.exports = UserModel;
