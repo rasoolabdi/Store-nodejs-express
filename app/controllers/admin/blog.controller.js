@@ -118,7 +118,7 @@ class AdminBlogController extends Controller {
 
     async getCommentsOfBlog(req,res,next) {
         try {
-
+            
         }
         catch(e) {
             next(e);

@@ -12,6 +12,11 @@ const router = Router();
  *          tags: [Category(AdminPanel)]
  *          summary: create new title and parent of category
  *          parameters:
+ *              -   name: access-token
+ *                  in: header
+ *                  example: Bearer token
+ *                  type: string
+ *                  required: true
  *              -   name: title
  *                  in: formData
  *                  required: true
