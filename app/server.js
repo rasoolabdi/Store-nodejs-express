@@ -33,10 +33,11 @@ module.exports = class Application {
         this.#app.use(express.static(path.join(__dirname, ".." , "public")));
         this.#app.use("/api-doc" , swaggerUI.serve, swaggerUI.setup(swaggerJsDoc({
             swaggerDefinition: {
+                openapi: "3.0.0",
                 info: {
                     title: "Shopping",
                     version: "2.0.0",
-                    description: "فروشگاه مجازی ",
+                    description: " فروشگاه مجازی نمونه سوالات استخدامی ",
                     contact: {
                         name: "rasool abdi",
                         url: "http://localhost:5001",
@@ -48,9 +49,21 @@ module.exports = class Application {
                         url: "http://localhost:5001"
                     }
                 ],
+                components:{
+                    securitySchemes: {
+                        BearerAuth: {
+                            type: "apiKey",
+                            schema: "bearer",
+                            bearerFormat: "JWT"
+                        }
+                    }
+                },
+                security: [{BearerAuth: []}]
             },
-            apis: ["./app/router/*/*.js"]
-        })))
+             apis: ["./app/router/**/*.js"]
+            }),
+            {explorer: true}            
+        ))
 
     }
 

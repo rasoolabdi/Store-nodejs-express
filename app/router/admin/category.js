@@ -4,6 +4,23 @@ const categoryController = require("../../controllers/admin/category.controller"
 
 const router = Router();
 
+/**
+ * @swagger
+ *  components:
+ *      schemas:
+ *          addCategory:
+ *              type: object
+ *              required: 
+ *                  -   title
+ *              properties:
+ *                  title:
+ *                      type: string
+ *                      description: the title of category
+ *                  parent:
+ *                      type: string
+ *                      description: the title of category
+ */
+
 
 /**
  * @swagger
@@ -12,20 +29,15 @@ const router = Router();
  *          tags: [Category(AdminPanel)]
  *          summary: create new title and parent of category
  *          parameters:
- *              -   name: access-token
- *                  in: header
- *                  example: Bearer token
- *                  type: string
- *                  required: true
- *              -   name: title
- *                  in: formData
- *                  required: true
- *                  type: string
- *              -   name: parent
- *                  in: formData
- *                  required: false
- *                  type: string
- * 
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  application/x-www-form-urlencoded:
+ *                      schema:
+ *                          $ref: '#/components/schemas/addCategory'
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/addCategory'
  *          responses: 
  *              201:
  *                  description: create title and parent successfully

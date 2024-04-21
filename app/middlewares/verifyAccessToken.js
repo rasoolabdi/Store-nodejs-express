@@ -4,14 +4,13 @@ const UserModel = require("../models/users");
 const { ACCESS_TOKEN_SECRET_KEY } = require("../utils/constant");
 
 function getToken(headers) {
-    const [bearer , token] = headers?.["access-token"]?.split(" ") || [];
+    const [bearer , token] = headers?.authorization?.split(" ") || [];
     if(token && ["Bearer" , "bearer"].includes(bearer)) {
         return token;
     }
     else {
-        throw new createHttpError.Unauthorized("حساب کاربری یافت نشد")
+        throw new createHttpError.Unauthorized("حساب کاربری شناسایی نشد")
     } 
-
 }
 
 
@@ -20,10 +19,11 @@ function VerifyAccessToken (req,res,next) {
     try {
         const token = getToken(req.headers);
         JWT.verify(token , ACCESS_TOKEN_SECRET_KEY , async (error , payload) => {
+         try{
             if(error) {
                 throw new createHttpError.Unauthorized("لطفا وارد حساب کاربری خود شوید .")
             }else {
-                const {mobile} = payload;
+                const {mobile} = payload || {};
                 const user = await UserModel.findOne({mobile} , {password: 0  , otp: 0});
                 if(!user) {
                     throw new createHttpError.Unauthorized("حساب کاربری یافت نشد");
@@ -32,6 +32,10 @@ function VerifyAccessToken (req,res,next) {
                     return next();
                 }
             }
+         }
+         catch(e) {
+            next(e)
+         }
         })
     }
     catch(error) {
