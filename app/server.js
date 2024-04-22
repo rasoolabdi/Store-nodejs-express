@@ -48,17 +48,17 @@ module.exports = class Application {
                     {
                         url: "http://localhost:5001"
                     }
-                ],
+                ], 
                 components:{
                     securitySchemes: {
                         BearerAuth: {
-                            type: "apiKey",
-                            schema: "bearer",
-                            bearerFormat: "JWT"
+                            type: "http",
+                            scheme: "bearer",
+                            bearerFormat: "JWT",
                         }
                     }
                 },
-                security: [{BearerAuth: []}]
+                security: [{BearerAuth: [] }]
             },
              apis: ["./app/router/**/*.js"]
             }),

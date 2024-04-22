@@ -8,17 +8,17 @@ const router = Router();
  * @swagger
  *  components:
  *      schemas:
- *          addCategory:
+ *          Category:
  *              type: object
  *              required: 
  *                  -   title
  *              properties:
- *                  title:
+ *                 title:
  *                      type: string
  *                      description: the title of category
- *                  parent:
+ *                 parent:
  *                      type: string
- *                      description: the title of category
+ *                      description: the parent of category
  */
 
 
@@ -34,10 +34,10 @@ const router = Router();
  *              content:
  *                  application/x-www-form-urlencoded:
  *                      schema:
- *                          $ref: '#/components/schemas/addCategory'
+ *                          $ref: '#/components/schemas/Category'
  *                  application/json:
  *                      schema:
- *                          $ref: '#/components/schemas/addCategory'
+ *                          $ref: '#/components/schemas/Category'
  *          responses: 
  *              201:
  *                  description: create title and parent successfully
@@ -150,10 +150,15 @@ router.get("/:id" , categoryController.getCategoryById);
  *                  in: path
  *                  required: true
  *                  type: string
- *              -   name: title
- *                  in: formData
- *                  type: string
- *                  required: true
+ *          requestBody:
+ *              required: true,
+ *              content:
+ *                  application/x-www-form-urlencoded:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Category'
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Category'
  *          responses: 
  *              200:
  *                  description: update title category successfully

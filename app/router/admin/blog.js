@@ -79,32 +79,18 @@ router.post("/add" , uploadFile.single("image"), stringToArray("tags") ,AdminBlo
  *      patch:
  *          tags: [Blog(AdminPanel)]
  *          summary: update Blog By Id documents
- *          consumes:
- *              -   multipart/form-data
  *          parameters: 
  *              -   name: id
  *                  in: path
  *                  type: string
  *                  required: true
- *              -   name: title
- *                  in: formData
- *                  type: string
- *              -   name: text
- *                  in: formData
- *                  type: string
- *              -   name: short_text
- *                  in: formData
- *                  type: string
- *              -   name: tags
- *                  example: tag1#tag2#tag3_foo#foo_bar || string || undefined
- *                  in: formData
- *                  type: string
- *              -   name: category
- *                  in: formData
- *                  type: string
- *              -   name: image
- *                  in: formData
- *                  type: file
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  multipart/form-data:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Blog'
+ *                  
  *          responses: 
  *              201:
  *                  description: update blog ById successfully
