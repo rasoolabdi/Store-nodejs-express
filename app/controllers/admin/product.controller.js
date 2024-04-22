@@ -5,7 +5,7 @@ class ProductController extends Controller {
 
     async addProduct(req,res,next) {
         try {
-
+            return res.status(200).json(req.body);
         }
         catch(error) {
             next(error);
