@@ -33,11 +33,11 @@ const router = Router();
  *              required: true
  *              content:
  *                  application/x-www-form-urlencoded:
- *                      schema:
- *                          $ref: '#/components/schemas/Category'
+ *                        schema:
+ *                           $ref: '#/components/schemas/Category'
  *                  application/json:
- *                      schema:
- *                          $ref: '#/components/schemas/Category'
+ *                        schema:
+ *                           $ref: '#/components/schemas/Category'
  *          responses: 
  *              201:
  *                  description: create title and parent successfully

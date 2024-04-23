@@ -19,7 +19,7 @@ const ProductSchema = new mongoose.Schema({
     type: {type: String , required: true},  //virtual or phtsical
     format: {type: String},
     supplier: {type: mongoose.Types.ObjectId , required: true},
-    feture: {type: Object , default: {
+    feature: {type: Object , default: {
         length: "",
         height: "",
         width: "",

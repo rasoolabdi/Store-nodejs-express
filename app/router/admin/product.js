@@ -47,6 +47,18 @@ const router = Router();
  *                  image:
  *                      type: file
  *                      description: the image of product
+ *                  height:
+ *                      type: string
+ *                      description: the heigth of product packet
+ *                  weight:
+ *                      type: string
+ *                      description: the weigth of product packet
+ *                  width:
+ *                      type: string
+ *                      description: the with of product packet
+ *                  length:
+ *                      type: string
+ *                      description: the length of product packet
  *                  
  */
 
@@ -69,7 +81,19 @@ const router = Router();
 router.post("/add" ,uploadFile.single("image") , stringToArray("tags"), productController.addProduct);
 // router.patch();
 // router.delete();
-// router.get();
+
+/**
+ * @swagger
+ *  /admin/products/allProducts:
+ *      get:
+ *          tags: [Product(AdminPanel)]
+ *          summary: get all products
+ *          responses: 
+ *              200:
+ *                  description: getAllProducts successfully
+ */
+
+router.get("/allProducts" ,productController.getAllProducts);
 // router.get();
 
 module.exports = {
