@@ -19,6 +19,7 @@ const router = Router();
  *                  -   price
  *                  -   discount
  *                  -   count
+ *                  -   type
  *              properties:
  *                  title:
  *                      type: string
@@ -32,6 +33,9 @@ const router = Router();
  *                  tags:
  *                      type: array
  *                      description: the tags of product
+ *                  colors: 
+ *                      type: array
+ *                      description: the select color of product
  *                  category:
  *                      type: string
  *                      description: the category of product
@@ -44,8 +48,15 @@ const router = Router();
  *                  count:
  *                      type: string
  *                      description: the count of product
- *                  image:
- *                      type: file
+ *                  type: 
+ *                      type: string
+ *                      description: the type of product
+ *                      
+ *                  images:
+ *                      type: array
+ *                      items:
+ *                          type: string
+ *                          format: binary
  *                      description: the image of product
  *                  height:
  *                      type: string
@@ -78,7 +89,7 @@ const router = Router();
  *              201:
  *                  description: createProduct successfully
  */
-router.post("/add" ,uploadFile.single("image") , stringToArray("tags"), productController.addProduct);
+router.post("/add" ,uploadFile.array("images" , 10) , stringToArray("tags","colors"), productController.addProduct);
 // router.patch();
 // router.delete();
 

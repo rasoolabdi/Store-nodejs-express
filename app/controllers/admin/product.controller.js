@@ -1,8 +1,10 @@
+const createHttpError = require("http-errors");
 const ProductModel = require("../../models/products");
-const { deleteFileInPublic } = require("../../utils/function");
+const { deleteFileInPublic, ListOfImagesFromRequest } = require("../../utils/function");
 const { createProductSchema } = require("../../validators/admin/product.schema");
 const Controller = require("../controller");
 const path = require("path");
+const { ObjectIdValidator } = require("../../validators/public.validator");
 
 
 class ProductController extends Controller {
@@ -10,13 +12,15 @@ class ProductController extends Controller {
 
     async addProduct(req,res,next) {
         try {
+            const images = ListOfImagesFromRequest(req?.files  || [] , req.body.fileUploadPath);
             const productBody = await createProductSchema.validateAsync(req.body);
-            req.body.image = path.join(productBody.filleUploadPath , productBody.filename);
-            const image = req.body.image.replace(/\\/g,"/");
-            const {title , text , short_text , category, tags, count, discount, price , width, height, weight, length} = productBody;
+            // req.body.image = path.join(productBody.fileUploadPath , productBody.filename);
+            const {title , text , short_text , category, tags, count, discount, price ,type, width, height, weight, colors,length} = productBody;
             const supplier = req.user._id;
-            let feature = {} , type= "physical"
-            if(width || weight || height || length) {
+            let feature = {};
+            feature.colors = colors;
+            console.log(feature.colors);
+            if(isNaN(width) || isNaN(weight) || isNaN(height) || isNaN(length)) {
                 if(!width) feature.width = 0;
                 else feature.width = width;
                 if(!height) feature.height = 0;
@@ -26,11 +30,8 @@ class ProductController extends Controller {
                 if(!length) feature.length = 0;
                 else feature.length = length;
             }
-            else {
-                type= "virtual"
-            }
-
-            const product = await ProductModel.create({
+           
+            await ProductModel.create({
                 title , 
                 text ,
                 short_text , 
@@ -39,11 +40,15 @@ class ProductController extends Controller {
                 count, 
                 discount, 
                 price, 
-                image, 
+                images, 
                 feature , 
                 supplier,
-                type
+                type,
+                
             });
+            console.log("type"+type);
+       
+
             return res.status(201).json({
                 data: {
                     statusCode: 201,
@@ -77,7 +82,9 @@ class ProductController extends Controller {
 
     async getAllProducts(req,res,next) {
         try {
+
             const products = await ProductModel.find({});
+            
             return res.status(200).json({
                 data: {
                     statusCode: 200,
@@ -98,6 +105,15 @@ class ProductController extends Controller {
         catch(error) {
             next(error);
         }
+    }
+
+    async findProductById(productId) {
+        const {id} = await ObjectIdValidator.validateAsync({id: productId});
+        const products = await ProductModel.findById({id});
+        if(!products) {
+            throw createHttpError.NotFound("محصول مورد نظر یافت نشد")
+        }
+        return products;
     }
 }
 

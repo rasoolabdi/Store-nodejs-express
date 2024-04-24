@@ -16,7 +16,7 @@ const ProductSchema = new mongoose.Schema({
     price: {type: Number , default: 0},
     discount: {type: Number, default: 0},
     count: {type: Number},
-    type: {type: String , required: true},  //virtual or phtsical
+    type : {type: String , required: true},  //virtual or phtsical
     format: {type: String},
     supplier: {type: mongoose.Types.ObjectId , required: true},
     feature: {type: Object , default: {
