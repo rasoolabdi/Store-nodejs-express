@@ -105,7 +105,24 @@ router.post("/add" ,uploadFile.array("images" , 10) , stringToArray("tags","colo
  */
 
 router.get("/allProducts" ,productController.getAllProducts);
-// router.get();
+
+/**
+ * @swagger 
+ *  /admin/products/{id}:
+ *      get:
+ *          tags: [Product(AdminPanel)]
+ *          summary: get product by id
+ *          parameters:
+ *              -   name: id
+ *                  in: path
+ *                  required: true
+ *                  type: string
+ *          responses: 
+ *              200:
+ *                  description: getOneProductById successfully
+ */
+
+router.get("/:id" , productController.getOneProduct);
 
 module.exports = {
     AdminApiProductRouter: router

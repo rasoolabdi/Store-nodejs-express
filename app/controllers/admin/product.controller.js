@@ -18,9 +18,7 @@ class ProductController extends Controller {
             const {title , text , short_text , category, tags, count, discount, price ,type, width, height, weight, colors,length} = productBody;
             const supplier = req.user._id;
             let feature = {};
-            feature.colors = colors;
-            console.log(feature.colors);
-            if(isNaN(width) || isNaN(weight) || isNaN(height) || isNaN(length)) {
+            if(width || weight || height || length) {
                 if(!width) feature.width = 0;
                 else feature.width = width;
                 if(!height) feature.height = 0;
@@ -29,6 +27,8 @@ class ProductController extends Controller {
                 else feature.weight = weight;
                 if(!length) feature.length = 0;
                 else feature.length = length;
+                if(!colors) feature.colors = [];
+                else feature.colors = colors;
             }
            
             await ProductModel.create({
@@ -46,9 +46,6 @@ class ProductController extends Controller {
                 type,
                 
             });
-            console.log("type"+type);
-       
-
             return res.status(201).json({
                 data: {
                     statusCode: 201,
@@ -82,8 +79,10 @@ class ProductController extends Controller {
 
     async getAllProducts(req,res,next) {
         try {
-
-            const products = await ProductModel.find({});
+            const products = await ProductModel.find({} , {__v: 0});
+            if(!products) {
+                throw new createHttpError.NotFound("محصولات مورد نظر یافت نشد .")
+            }
             
             return res.status(200).json({
                 data: {
@@ -91,7 +90,6 @@ class ProductController extends Controller {
                     products
                 }
             })
-
         }
         catch(error) {
             next(error);
@@ -100,7 +98,14 @@ class ProductController extends Controller {
 
     async getOneProduct(req,res,next) {
         try {
-
+            const {id} = req.params;
+            const product = await this.findProductById(id);
+            return res.status(200).json({
+                data: {
+                    statusCode: 200,
+                    product
+                }
+            })
         }
         catch(error) {
             next(error);
@@ -109,7 +114,7 @@ class ProductController extends Controller {
 
     async findProductById(productId) {
         const {id} = await ObjectIdValidator.validateAsync({id: productId});
-        const products = await ProductModel.findById({id});
+        const products = await ProductModel.findById({_id: id});
         if(!products) {
             throw createHttpError.NotFound("محصول مورد نظر یافت نشد")
         }
