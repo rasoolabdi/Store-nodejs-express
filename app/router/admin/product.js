@@ -169,6 +169,7 @@ router.post("/add" ,uploadFile.array("images" , 10) , stringToArray("tags","colo
  *                  type: string
  *                  required: true
  *          requestBody:
+ *              required: true
  *              content:
  *                  multipart/form-data:
  *                      schema: 

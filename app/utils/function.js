@@ -89,6 +89,28 @@ function ListOfImagesFromRequest(files , fileUploadPath) {
     }
 }
 
+function copyObject(object) {
+    return JSON.parse(JSON.stringify(object));
+}
+
+function setFeatures(body) {
+    const {colors , width , height , weight , length} = body;
+    let features = {};
+    if(width || weight || height || length) {
+        if(!width) features.width = 0;
+        else features.width = width;
+        if(!height) features.height = 0;
+        else features.height = height;
+        if(!weight) features.weight = 0;
+        else features.weight = weight;
+        if(!length) features.length = 0;
+        else features.length = length;
+        if(!colors) features.colors = [];
+        else features.colors = colors;
+    };
+    return features;       
+}
+
 
 module.exports = {
     RandomNumberGenerator,
@@ -96,6 +118,8 @@ module.exports = {
     SignRefreshToken,
     VerifyRefreshToken,
     deleteFileInPublic,
-    ListOfImagesFromRequest
+    ListOfImagesFromRequest,
+    copyObject,
+    setFeatures
 
 }

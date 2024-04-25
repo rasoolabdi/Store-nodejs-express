@@ -1,6 +1,6 @@
 const createHttpError = require("http-errors");
 const ProductModel = require("../../models/products");
-const { deleteFileInPublic, ListOfImagesFromRequest } = require("../../utils/function");
+const { deleteFileInPublic, ListOfImagesFromRequest, copyObject, setFeatures } = require("../../utils/function");
 const { createProductSchema } = require("../../validators/admin/product.schema");
 const Controller = require("../controller");
 const path = require("path");
@@ -16,22 +16,9 @@ class ProductController extends Controller {
             const images = ListOfImagesFromRequest(req?.files  || [] , req.body.fileUploadPath);
             const productBody = await createProductSchema.validateAsync(req.body);
             // req.body.image = path.join(productBody.fileUploadPath , productBody.filename);
-            const {title , text , short_text , category, tags, count, discount, price ,type, width, height, weight, colors,length} = productBody;
+            const {title , text , short_text , category, tags, count, discount, price ,type} = productBody;
             const supplier = req.user._id;
-            let feature = {};
-            if(width || weight || height || length) {
-                if(!width) feature.width = 0;
-                else feature.width = width;
-                if(!height) feature.height = 0;
-                else feature.height = height;
-                if(!weight) feature.weight = 0;
-                else feature.weight = weight;
-                if(!length) feature.length = 0;
-                else feature.length = length;
-                if(!colors) feature.colors = [];
-                else feature.colors = colors;
-            }
-           
+            let {features} =  setFeatures(productBody);
             await ProductModel.create({
                 title , 
                 text ,
@@ -42,7 +29,7 @@ class ProductController extends Controller {
                 discount, 
                 price, 
                 images, 
-                feature , 
+                features , 
                 supplier,
                 type,
                 
@@ -62,6 +49,22 @@ class ProductController extends Controller {
 
     async editProduct(req,res,next) {
         try {
+            const data = copyObject(req.body);
+            data.images = ListOfImagesFromRequest(req?.files || [] , req.body.fileUploadPath);
+            const productBody = await createProductSchema.validateAsync(req.body);
+            data.features =  setFeatures(productBody);
+            let nullishData = [""," ","0" , 0, null, undefined];
+            let blackListFields = ["bookmarks","deslikes","comments","likes","supplier","width", "height", "weight", "colors","length"];
+            Object.keys(data).forEach((key) => {
+                if(blackListFields.includes(key)) delete data[key];
+                if(typeof data[key] === "string") data[key] = data[key].trim();
+                if(nullishData.includes(data[key])) delete data[key];
+                if(Array.isArray(data[key]) && data[key].length > 0) data[key] = data[key].map((item) => item.trim());
+                if(Array.isArray(data[key]) && data[key].length == 0) delete data[key];
+            });
+
+            return res.status(HttpStatus.OK).json(data);
+
 
         }
         catch(error) {
