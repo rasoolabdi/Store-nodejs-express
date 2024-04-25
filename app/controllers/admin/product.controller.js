@@ -18,7 +18,7 @@ class ProductController extends Controller {
             // req.body.image = path.join(productBody.fileUploadPath , productBody.filename);
             const {title , text , short_text , category, tags, count, discount, price ,type} = productBody;
             const supplier = req.user._id;
-            let {features} =  setFeatures(productBody);
+            let features =  setFeatures(productBody);
             await ProductModel.create({
                 title , 
                 text ,
