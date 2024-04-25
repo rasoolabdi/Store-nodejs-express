@@ -99,6 +99,11 @@ router.post("/add" ,uploadFile.array("images" , 10) , stringToArray("tags","colo
  *      get:
  *          tags: [Product(AdminPanel)]
  *          summary: get all products
+ *          parameters: 
+ *              -   name: search
+ *                  in: query
+ *                  type: string
+ *                  description: text or search in title , search by text title short_text of product
  *          responses: 
  *              200:
  *                  description: getAllProducts successfully

@@ -90,11 +90,21 @@ class ProductController extends Controller {
 
     async getAllProducts(req,res,next) {
         try {
-            const products = await ProductModel.find({} , {__v: 0});
-            if(!products) {
-                throw new createHttpError.NotFound("محصولات مورد نظر یافت نشد .")
+            const search = req?.query?.search || "";
+            let products;
+            if(search) {
+                products = await ProductModel.find({
+                    $text: {
+                        $search: new RegExp(search , "ig")
+                    }
+                } , {__v: 0});
+                if(!products) {
+                    throw new createHttpError.NotFound("محصولات مورد نظر یافت نشد .")
+                }
             }
-            
+            else{
+                products = await ProductModel.find({} , {__v:0})
+            }
             return res.status(HttpStatus.OK).json({
                 data: {
                     statusCode: HttpStatus.OK,
@@ -104,6 +114,15 @@ class ProductController extends Controller {
         }
         catch(error) {
             next(error);
+        }
+    }
+
+    async searchIndex(req,res,next) {
+        try {
+
+        }
+        catch(e) {
+            next(e);
         }
     }
 
