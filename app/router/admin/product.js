@@ -73,6 +73,72 @@ const router = Router();
  *                  
  */
 
+
+/**
+ * @swagger
+ *  components:
+ *      schemas:
+ *          EditProduct:
+ *              type: object
+ *              properties:
+ *                  title:
+ *                      type: string
+ *                      description: the title of product
+ *                  short_text:
+ *                      type: string
+ *                      description: the short_text of product
+ *                  text:
+ *                      type: string
+ *                      description: the text of product
+ *                  tags:
+ *                      type: array
+ *                      description: the tags of product
+ *                  colors: 
+ *                      type: array
+ *                      description: the select color of product
+ *                  category:
+ *                      type: string
+ *                      description: the category of product
+ *                  price:
+ *                      type: string
+ *                      description: the price of product
+ *                  discount:
+ *                      type: string
+ *                      description: the discount of product
+ *                  count:
+ *                      type: string
+ *                      description: the count of product
+ *                  type: 
+ *                      type: string
+ *                      description: the type of product
+ *                      example: physical or virtual
+ *                  images:
+ *                      type: array
+ *                      items:
+ *                          type: string
+ *                          format: binary
+ *                      description: the image of product
+ *                  height:
+ *                      type: string
+ *                      description: the heigth of product packet
+ *                  weight:
+ *                      type: string
+ *                      description: the weigth of product packet
+ *                  width:
+ *                      type: string
+ *                      description: the with of product packet
+ *                  length:
+ *                      type: string
+ *                      description: the length of product packet
+ *                  
+ */
+
+
+
+
+
+
+
 /**
  * @swagger
  *  /admin/products/add:
@@ -90,8 +156,32 @@ const router = Router();
  *                  description: createProduct successfully
  */
 router.post("/add" ,uploadFile.array("images" , 10) , stringToArray("tags","colors"), productController.addProduct);
-// router.patch();
-// router.delete();
+
+/**
+ * @swagger
+ *  /admin/products/edit/{id}:
+ *      patch:
+ *          tags: [Product(AdminPanel)]
+ *          summary: update product by id
+ *          parameters: 
+ *              -   name: id
+ *                  in: path
+ *                  type: string
+ *                  required: true
+ *          requestBody:
+ *              content:
+ *                  multipart/form-data:
+ *                      schema: 
+ *                          $ref: '#/components/schemas/EditProduct'
+ *          responses: 
+ *              200:
+ *                 description: updated product successfully
+ */
+
+
+router.patch("/edit/:id" , uploadFile.array("images" , 10) , stringToArray("tags" , "colors") ,productController.editProduct);
+
+
 
 /**
  * @swagger
