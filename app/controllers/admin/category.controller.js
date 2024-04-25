@@ -3,6 +3,7 @@ const CategoryModel = require("../../models/categories");
 const Controller = require("../controller");
 const { addCategorySchema, updateCategorySchema } = require("../../validators/admin/category.schema");
 const { default: mongoose, Types } = require("mongoose");
+const {StatusCodes: HttpStatus} = require("http-status-codes");
 
 
 
@@ -16,9 +17,9 @@ class CategoryController extends Controller {
             if(!category) {
                 throw new createHttpError.InternalServerError("دسته بندی ایجاد نشد")
             }
-            return res.status(201).json({
+            return res.status(HttpStatus.CREATED).json({
                 data: {
-                    statusCode: 201,
+                    statusCode: HttpStatus.CREATED,
                     message: "دسته بندی با موفقیت ایجاد شد ."
                 }
             })
@@ -41,9 +42,9 @@ class CategoryController extends Controller {
             if(deleteResult.deletedCount == 0) {
                 throw createHttpError.InternalServerError("حذف دسته بندی انجام نشد .");
             }
-            return res.status(200).json({
+            return res.status(HttpStatus.OK).json({
                 data: {
-                    statusCode: 200,
+                    statusCode: HttpStatus.OK,
                     message: "دسته بندی با موفقیت حذف شد ."
                 }
             })
@@ -64,9 +65,9 @@ class CategoryController extends Controller {
             if(resultOfUpdate.modifiedCount == 0) {
                 throw new createHttpError.InternalServerError("به روز رسانی انجام نشد.")
             }
-            return res.status(200) .json({
+            return res.status(HttpStatus.OK) .json({
                 data : {
-                    statusCode: 200,
+                    statusCode: HttpStatus.OK,
                     message: "به روز رسانی با موفقیت انجام شد ."
                 }
             })
@@ -129,9 +130,9 @@ class CategoryController extends Controller {
 
 
             const categories = await CategoryModel.find({parent: undefined} , {__v: 0})
-            return res.status(200).json({
+            return res.status(HttpStatus.OK).json({
                 data: {
-                    statusCode: 200,
+                    statusCode: HttpStatus.OK,
                     categories
                 }
             })
@@ -149,9 +150,9 @@ class CategoryController extends Controller {
                 }
             ]);
 
-            return res.status(200).json({
+            return res.status(HttpStatus.OK).json({
                 data : {
-                    statusCode: 200,
+                    statusCode: HttpStatus.OK,
                     categories
                 }
             })
@@ -185,9 +186,9 @@ class CategoryController extends Controller {
                   }  
                 }
             ])
-            return res.status(200).json({
+            return res.status(HttpStatus.OK).json({
                 data: {
-                    statusCode: 200,
+                    statusCode: HttpStatus.OK,
                     category
                 }
             })
@@ -200,9 +201,9 @@ class CategoryController extends Controller {
     async getAllParents(req,res,next) {
         try {
             const parents = await CategoryModel.find({parent: undefined}, {__v:0});
-            return res.status(200).json({
+            return res.status(HttpStatus.OK).json({
                 data : {
-                    statusCode: 200,
+                    statusCode: HttpStatus.OK,
                     parents
                 }
             })
@@ -217,9 +218,9 @@ class CategoryController extends Controller {
             const {parent} = req.params;
             console.log(req.params);
             const children = await CategoryModel.find({parent} , {__v:0});
-            return res.status(200).json({
+            return res.status(HttpStatus.OK).json({
                 data: {
-                    statusCode: 200,
+                    statusCode: HttpStatus.OK,
                     children
                 }
             })

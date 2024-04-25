@@ -51,7 +51,7 @@ const router = Router();
  *                  type: 
  *                      type: string
  *                      description: the type of product
- *                      
+ *                      example: physical or virtual
  *                  images:
  *                      type: array
  *                      items:
@@ -123,6 +123,26 @@ router.get("/allProducts" ,productController.getAllProducts);
  */
 
 router.get("/:id" , productController.getOneProduct);
+
+
+/**
+ * @swagger
+ *  /admin/products/remove/{id}:
+ *      delete:
+ *          tags: [Product(AdminPanel)]
+ *          summary: delete one product by id
+ *          parameters:
+ *              -   name: id
+ *                  in: path
+ *                  required: true
+ *                  type: string
+ *          responses:
+ *              200:
+ *                  description: delete successfully
+ */
+
+
+router.delete("/remove/:id" , productController.removeProductById);
 
 module.exports = {
     AdminApiProductRouter: router

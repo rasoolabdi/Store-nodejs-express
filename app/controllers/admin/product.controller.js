@@ -5,6 +5,7 @@ const { createProductSchema } = require("../../validators/admin/product.schema")
 const Controller = require("../controller");
 const path = require("path");
 const { ObjectIdValidator } = require("../../validators/public.validator");
+const {StatusCodes: HttpStatus} = require("http-status-codes");
 
 
 class ProductController extends Controller {
@@ -46,9 +47,9 @@ class ProductController extends Controller {
                 type,
                 
             });
-            return res.status(201).json({
+            return res.status(HttpStatus.CREATED).json({
                 data: {
-                    statusCode: 201,
+                    statusCode: HttpStatus.CREATED,
                     message: "ثبت محصول با موفقیت انجام شد"
                 }
             });
@@ -68,8 +69,18 @@ class ProductController extends Controller {
         }
     }
 
-    async removeProduct(req,res,next) {
+    async removeProductById(req,res,next) {
         try {
+            const {id} = req.params;
+            const product = await this.findProductById(id);
+            const removeProduct = await ProductModel.deleteOne({_id: product});
+            if(removeProduct.deletedCount == 0) throw new createHttpError.InternalServerError("خطا از سمت سرور رخ داده است . محصول مورد نظر حذف نشد .")
+            return res.status(HttpStatus.OK).json({
+                data: {
+                    statusCode: HttpStatus.OK,
+                    message: "محصول مورد نظر با موفقیت حذف شد ."
+                }
+            })
 
         }
         catch(error) {
@@ -84,9 +95,9 @@ class ProductController extends Controller {
                 throw new createHttpError.NotFound("محصولات مورد نظر یافت نشد .")
             }
             
-            return res.status(200).json({
+            return res.status(HttpStatus.OK).json({
                 data: {
-                    statusCode: 200,
+                    statusCode: HttpStatus.OK,
                     products
                 }
             })
@@ -100,9 +111,9 @@ class ProductController extends Controller {
         try {
             const {id} = req.params;
             const product = await this.findProductById(id);
-            return res.status(200).json({
+            return res.status(HttpStatus.OK).json({
                 data: {
-                    statusCode: 200,
+                    statusCode: HttpStatus.OK,
                     product
                 }
             })

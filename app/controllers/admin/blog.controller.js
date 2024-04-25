@@ -4,6 +4,7 @@ const { deleteFileInPublic } = require("../../utils/function");
 const { createBlogSchema } = require("../../validators/admin/blog.schema");
 const Controller = require("../controller");
 const path = require("path");
+const {StatusCodes: HttpStatus} = require("http-status-codes");
 
 
 class AdminBlogController extends Controller {
@@ -27,9 +28,9 @@ class AdminBlogController extends Controller {
                 category,
                 author
             });
-            return res.status(201).json({
+            return res.status(HttpStatus.CREATED).json({
                 data: {
-                   statusCode: 201,
+                   statusCode: HttpStatus.CREATED,
                      message: "بلاگ با موفقیت ایجاد گردید ."
                }
             });
@@ -45,9 +46,9 @@ class AdminBlogController extends Controller {
         try {
             const {id} = req.params;
             const blog = await this.findBlog({_id: id});
-            return res.status(200).json({
+            return res.status(HttpStatus.OK).json({
                 data: {
-                    statusCode:200,
+                    statusCode:HttpStatus.OK,
                     blog
                 }
             })
@@ -103,9 +104,9 @@ class AdminBlogController extends Controller {
                     }
                 }
             ]);
-            return res.status(200).json({
+            return res.status(HttpStatus.OK).json({
                 data: {
-                    statusCode: 200,
+                    statusCode: HttpStatus.OK,
                     blogs
                 }
             })
@@ -134,9 +135,9 @@ class AdminBlogController extends Controller {
             if(result.deletedCount == 0) {
                 throw createHttpError.InternalServerError("بلاگ حذف نشد. مجدد تلاش کنید .")
             }
-            return res.status(200).json({
+            return res.status(HttpStatus.OK).json({
                 data: {
-                    statusCode: 200,
+                    statusCode: HttpStatus.OK,
                     message: "بلاگ یا مقاله با موفقیت حذف گردید ."
                 }
             })
@@ -177,9 +178,9 @@ class AdminBlogController extends Controller {
             if(UpdateBlog.modifiedCount == 0) {
                 throw createHttpError.InternalServerError("آپدیت انجام نشد")
             }
-            return res.status(200).json({
+            return res.status(HttpStatus.OK).json({
                 data: {
-                    statusCode: 200,
+                    statusCode: HttpStatus.OK,
                     message: "آپدیت بلاگ با موفقیت انجام شد ."
                 }
             })
