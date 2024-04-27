@@ -13,7 +13,7 @@ const BlogSchema = new mongoose.Schema({
     category: {type: [mongoose.Types.ObjectId] ,ref: "category" , required: true},
     comments: {type: [CommentSchema] , default: []},
     likes: {type: [mongoose.Types.ObjectId] , ref: "users" , default: []},
-    deslikes : {type: [mongoose.Types.ObjectId] , ref: "users" , default: []},
+    dislikes : {type: [mongoose.Types.ObjectId] , ref: "users" , default: []},
     bookmarks: {type: [mongoose.Types.ObjectId] , ref: "users" , default: []},
 },{
     timestamps: true , 

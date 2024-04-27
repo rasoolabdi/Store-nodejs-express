@@ -158,7 +158,7 @@ class AdminBlogController extends Controller {
             }
             const data = req.body;
             let nullishData = ["" ," " ,'' , ' ' , 0 , "0", null , undefined];
-            let blackListFields = ["bookmarks" ,"deslikes" , "comments" , "likes" , "author"];
+            let blackListFields = ["bookmarks" ,"dislikes" , "comments" , "likes" , "author"];
             Object.keys(data).forEach((key) => {
                 if(blackListFields.includes(key)) {
                     delete data[key];

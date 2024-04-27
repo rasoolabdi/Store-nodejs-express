@@ -1,11 +1,25 @@
 const createHttpError = require("http-errors");
 const ProductModel = require("../../models/products");
-const { deleteFileInPublic, ListOfImagesFromRequest, copyObject, setFeatures } = require("../../utils/function");
+const { deleteFileInPublic, ListOfImagesFromRequest, copyObject, setFeatures, deleteInvalidPropertyInObject } = require("../../utils/function");
 const { createProductSchema } = require("../../validators/admin/product.schema");
 const Controller = require("../controller");
 const path = require("path");
 const { ObjectIdValidator } = require("../../validators/public.validator");
 const {StatusCodes: HttpStatus} = require("http-status-codes");
+
+const ProductBlackList = {
+    BOOKMARKS: "bookmarks",
+    LIKES: "likes",
+    DISLIKES: "dislikes",
+    COMMENTS: "comments",
+    SUPPLIER: "supplier",
+    WEIGHT: "weight",
+    WIDTH: "width",
+    HEIGHT: "height",
+    LENGTH: "length",
+    COLORS: "colors"
+}
+Object.freeze(ProductBlackList);
 
 
 class ProductController extends Controller {
@@ -49,23 +63,24 @@ class ProductController extends Controller {
 
     async editProduct(req,res,next) {
         try {
+            const {id} = req.params;
+            const product = await this.findProductById(id);
             const data = copyObject(req.body);
             data.images = ListOfImagesFromRequest(req?.files || [] , req.body.fileUploadPath);
             const productBody = await createProductSchema.validateAsync(req.body);
             data.features =  setFeatures(productBody);
-            let nullishData = [""," ","0" , 0, null, undefined];
-            let blackListFields = ["bookmarks","deslikes","comments","likes","supplier","width", "height", "weight", "colors","length"];
-            Object.keys(data).forEach((key) => {
-                if(blackListFields.includes(key)) delete data[key];
-                if(typeof data[key] === "string") data[key] = data[key].trim();
-                if(nullishData.includes(data[key])) delete data[key];
-                if(Array.isArray(data[key]) && data[key].length > 0) data[key] = data[key].map((item) => item.trim());
-                if(Array.isArray(data[key]) && data[key].length == 0) delete data[key];
+            let blackListFields = Object.values(ProductBlackList);
+            deleteInvalidPropertyInObject( data, blackListFields);
+            const updateProductResult = await ProductModel.updateOne({_id: product._id} , {$set: data});
+            if(updateProductResult.modifiedCount == 0) {
+                throw new {status: HttpStatus.INTERNAL_SERVER_ERROR , message: "خطا از سمت سرور رخ داده است ."}
+            }
+            return res.status(HttpStatus.OK).json({
+                data: {
+                    statusCode: 200,
+                    message: "محصول مورد نظر با موفقیت آپدیت شد ."
+                }
             });
-
-            return res.status(HttpStatus.OK).json(data);
-
-
         }
         catch(error) {
             next(error);
