@@ -3,6 +3,7 @@ const { AdminApiCategoryRouter } = require("./category");
 const { AdminApiBlogRouter } = require("./blog");
 const { VerifyAccessToken } = require("../../middlewares/verifyAccessToken");
 const { AdminApiProductRouter } = require("./product");
+const { AdminApiCourseRouter } = require("./course");
 
 
 const router = Router();
@@ -12,6 +13,8 @@ const router = Router();
  * tags:
  *     -    name: Admin-Panel
  *          description: api's admin panel
+ *     -    name: Course(AdminPanel)
+ *          description: managment course section like manage episode , chapter and courses
  *     -    name: Product(AdminPanel)
  *          description: managment products route
  *     -    name: Category(AdminPanel)
@@ -25,6 +28,7 @@ const router = Router();
 router.use("/category" , AdminApiCategoryRouter);
 router.use("/blogs"    , AdminApiBlogRouter);
 router.use("/products"  ,AdminApiProductRouter);
+router.use("/courses" ,  AdminApiCourseRouter);
  
 module.exports = {
     AdminRoutes : router
