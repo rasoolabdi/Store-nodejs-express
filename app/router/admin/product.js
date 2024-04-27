@@ -8,6 +8,25 @@ const router = Router();
  * @swagger
  *  components:
  *      schemas:
+ *          Color:
+ *              type: array
+ *              items:
+ *                  type: string
+ *                  enum:
+ *                      -   black
+ *                      -   white
+ *                      -   gray
+ *                      -   red
+ *                      -   blue
+ *                      -   green
+ *                      -   pink
+ *                      -   orange
+ */
+
+/**
+ * @swagger
+ *  components:
+ *      schemas:
  *          Product:
  *              type: object
  *              required:
@@ -34,8 +53,7 @@ const router = Router();
  *                      type: array
  *                      description: the tags of product
  *                  colors: 
- *                      type: array
- *                      description: the select color of product
+ *                      $ref: '#/components/schemas/Color'
  *                  category:
  *                      type: string
  *                      description: the category of product
@@ -94,8 +112,7 @@ const router = Router();
  *                      type: array
  *                      description: the tags of product
  *                  colors: 
- *                      type: array
- *                      description: the select color of product
+ *                      $ref: '#/components/schemas/Color'
  *                  category:
  *                      type: string
  *                      description: the category of product

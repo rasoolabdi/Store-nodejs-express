@@ -3,7 +3,7 @@ const createHttpError = require("http-errors");
 const { MongoIDPattern } = require("../../utils/constant");
 
 const createProductSchema  = Joi.object({
-    title: Joi.string().min(3).max(50).error(createHttpError.BadRequest("عنوان دسته بندی صحیح نمی باشد.")),
+    title: Joi.string().min(3).max(50).error(createHttpError.BadRequest("عنوان محصول صحیح نمی باشد.")),
     text: Joi.string().error(createHttpError.BadRequest("متن ارسالی صحیح نمی باشد .")),
     short_text: Joi.string().error(createHttpError.BadRequest("متن کوتاه ارسالی صحیح نمی باشد .")),
     tags: Joi.array().min(0).max(20).error(createHttpError.BadRequest("برچسب ها بیشتر از بیست کاراکتر نمیتوانند باشند .")),
