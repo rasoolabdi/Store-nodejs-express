@@ -3,51 +3,15 @@ const bcrypt = require("bcrypt");
 const { RandomNumberGenerator } = require("../../utils/function");
 const router = Router();
 
-/**
- * @swagger
- *  tags:
- *      name: Developer-Routes
- *      description: developer Utils
- */
-
-/**
- * @swagger
- *  /developer/password-hash/{password}:
- *      get:
- *          tags: [Developer-Routes]
- *          summary: hash password or hash data
- *          parameters: 
- *              -   in: path
- *                  type: string
- *                  name: password
- *                  required: true
- *          responses: 
- *              200:
- *                  description: success          
- * 
- */
 router.get("password-hash/:password" , (req,res,next) => {
     const {password} = req.params;
     const salt = bcrypt.genSaltSync(10);
     return res.send(bcrypt.hashSync(password , salt))
 })
 
-/**
- * @swagger
- *  /developer/random-number:
- *      get:
- *          tags: [Developer-Routes]
- *          summary: get random number 
- *          responses: 
- *              200:
- *                  description: random number successfully
- *          
- */
-
 router.get("/random-number" , (req,res,next) => {
     return res.send(RandomNumberGenerator().toString());
 })
-
 
 module.exports = {
     DeveloperRoutes: router

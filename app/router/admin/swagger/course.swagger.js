@@ -10,6 +10,47 @@
  *                  -   cash
  *                  -   special
  */
+
+/**
+ * @swagger
+ *  definitions:
+ *      ListOfCourses:
+ *          type: array
+ *          items: 
+ *              type: object
+ *              properties:
+ *                  _id:
+ *                      type: string
+ *                      example: "662e1562785dd66a5341845a" 
+ *                  title: 
+ *                      type: string
+ *                      example: "summary title of course"
+ *                  short_text:
+ *                      type: string
+ *                      example: "summary short_text of course"
+ *                  text: 
+ *                      type: string
+ *                      example: "text and describe of course"
+ *                  status: 
+ *                      type: string
+ *                      example: "notStarted | Holding | Completed"
+ *                  time: 
+ *                      type: string
+ *                      example: 10:20:45
+ *                  price: 
+ *                      type: integer
+ *                      example: 250000
+ *                  discount: 
+ *                      type: integer
+ *                      example: 20
+ *                  studentCount: 
+ *                      type: integer
+ *                      example: 340
+ *                  teacher: 
+ *                      type: string
+ *                      example: "rasool abdi"
+ */
+
 /**
  * @swagger
  *  components:
@@ -95,6 +136,10 @@
  *         responses:
  *              200:
  *                  description: getAllCourses successfully
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/definitions/ListOfCourses'
  */
 
 /**
