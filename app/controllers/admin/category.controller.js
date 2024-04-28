@@ -15,7 +15,7 @@ class CategoryController extends Controller {
             const {title , parent} = req.body;
             const category = await CategoryModel.create({title , parent});
             if(!category) {
-                throw new createHttpError.InternalServerError("دسته بندی ایجاد نشد")
+                throw  createHttpError.InternalServerError("دسته بندی ایجاد نشد")
             }
             return res.status(HttpStatus.CREATED).json({
                 data: {
@@ -56,16 +56,16 @@ class CategoryController extends Controller {
 
     async editCategoryTitle(req,res,next) {
         try {
+            await updateCategorySchema.validateAsync(req.body);
             const {id} = req.params;
             const {title} = req.body;
             const categories = await this.checkExistCategory(id);
-            await updateCategorySchema.validateAsync(req.body);
-            const resultOfUpdate = await CategoryModel.updateOne({_id: id} , { $set: {title} });
+            const resultOfUpdate = await CategoryModel.updateOne({_id: id} , { $set: {title}});
             console.log(resultOfUpdate);
             if(resultOfUpdate.modifiedCount == 0) {
                 throw new createHttpError.InternalServerError("به روز رسانی انجام نشد.")
             }
-            return res.status(HttpStatus.OK) .json({
+            return res.status(HttpStatus.OK).json({
                 data : {
                     statusCode: HttpStatus.OK,
                     message: "به روز رسانی با موفقیت انجام شد ."

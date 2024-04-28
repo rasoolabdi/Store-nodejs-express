@@ -28,19 +28,18 @@ const router = Router();
  *      post:
  *          tags: [Category(AdminPanel)]
  *          summary: create new title and parent of category
- *          parameters:
  *          requestBody:
  *              required: true
- *              content:
+ *              content: 
  *                  application/x-www-form-urlencoded:
- *                        schema:
- *                           $ref: '#/components/schemas/Category'
+ *                      schema:
+ *                          $ref: '#/components/schemas/Category'
  *                  application/json:
- *                        schema:
- *                           $ref: '#/components/schemas/Category'
- *          responses: 
+ *                      schema:
+ *                          $ref: '#/components/schemas/Category'
+ *          responses:
  *              201:
- *                  description: create title and parent successfully
+ *                  description: create new category successfully
  */
 
 router.post("/add" , categoryController.addCategory);
@@ -144,14 +143,14 @@ router.get("/:id" , categoryController.getCategoryById);
  *  /admin/category/update/{id}:
  *      patch:
  *          tags: [Category(AdminPanel)]
- *          summary: edit or update category title by id
+ *          summary: edit or update category title with object id
  *          parameters:
- *              -   name: id
- *                  in: path
- *                  required: true
+ *              -   in: path
+ *                  name: id
  *                  type: string
+ *                  required : true
  *          requestBody:
- *              required: true,
+ *              required: true
  *              content:
  *                  application/x-www-form-urlencoded:
  *                      schema:
@@ -159,12 +158,9 @@ router.get("/:id" , categoryController.getCategoryById);
  *                  application/json:
  *                      schema:
  *                          $ref: '#/components/schemas/Category'
- *          responses: 
+ *          responses:
  *              200:
- *                  description: update title category successfully
- *              500:
- *                  description: Internal Server Error
- * 
+ *                  description: success
  */
 
 

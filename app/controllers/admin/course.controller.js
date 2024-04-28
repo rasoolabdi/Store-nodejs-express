@@ -14,8 +14,9 @@ class CourseController extends Controller {
             const courseSchema = await createCourseSchema.validateAsync(req.body);
             const {fileUploadPath , filename} = courseSchema;
             const image = path.join(fileUploadPath , filename).replace(/\\/g , "/");
-            const {title , short_text , text , tags , category, price , discount} = courseSchema;
+            const {title , short_text , text , tags , category, price , discount, type} = courseSchema;
             const teacher = req.user._id;
+            if(Number(price) > 0 && type === "free") throw createHttpError.BadRequest("برای دوره رایگان نمیتوان قیمت ثبت کرد .");
             const createCourse = await CourseModel.create({
                 title,
                 short_text,
@@ -24,11 +25,11 @@ class CourseController extends Controller {
                 category,
                 price,
                 discount,
+                type,
                 image,
                 time: "00:00:00",
                 status: "notStarted",
                 teacher,
-
             });
             console.log(createCourse);
             if(!createCourse?._id){
@@ -76,6 +77,24 @@ class CourseController extends Controller {
         }
     }
 
+    async getCourseById(req,res,next) {
+        try {
+            const {id} = req.params;
+            const course = await CourseModel.findById(id, {__v:0});
+            if(!course) {
+                throw createHttpError.NotFound("دوره ایی یافت نشد")
+            }
+            return res.status(HttpStatus.OK).json({
+                data: {
+                    statusCode: HttpStatus.OK,
+                    course
+                }
+            })
+        }
+        catch(error) {
+            next(error);
+        }
+    }
 
    
 
