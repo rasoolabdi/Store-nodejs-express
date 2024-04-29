@@ -18,8 +18,8 @@ class CategoryController extends Controller {
                 throw  createHttpError.InternalServerError("دسته بندی ایجاد نشد")
             }
             return res.status(HttpStatus.CREATED).json({
+                statusCode: HttpStatus.CREATED,
                 data: {
-                    statusCode: HttpStatus.CREATED,
                     message: "دسته بندی با موفقیت ایجاد شد ."
                 }
             })
@@ -43,8 +43,8 @@ class CategoryController extends Controller {
                 throw createHttpError.InternalServerError("حذف دسته بندی انجام نشد .");
             }
             return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
                 data: {
-                    statusCode: HttpStatus.OK,
                     message: "دسته بندی با موفقیت حذف شد ."
                 }
             })
@@ -66,8 +66,8 @@ class CategoryController extends Controller {
                 throw new createHttpError.InternalServerError("به روز رسانی انجام نشد.")
             }
             return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
                 data : {
-                    statusCode: HttpStatus.OK,
                     message: "به روز رسانی با موفقیت انجام شد ."
                 }
             })
@@ -131,8 +131,8 @@ class CategoryController extends Controller {
 
             const categories = await CategoryModel.find({parent: undefined} , {__v: 0})
             return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
                 data: {
-                    statusCode: HttpStatus.OK,
                     categories
                 }
             })
@@ -151,8 +151,8 @@ class CategoryController extends Controller {
             ]);
 
             return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
                 data : {
-                    statusCode: HttpStatus.OK,
                     categories
                 }
             })
@@ -187,8 +187,8 @@ class CategoryController extends Controller {
                 }
             ])
             return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
                 data: {
-                    statusCode: HttpStatus.OK,
                     category
                 }
             })
@@ -202,8 +202,8 @@ class CategoryController extends Controller {
         try {
             const parents = await CategoryModel.find({parent: undefined}, {__v:0});
             return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
                 data : {
-                    statusCode: HttpStatus.OK,
                     parents
                 }
             })
@@ -219,8 +219,8 @@ class CategoryController extends Controller {
             console.log(req.params);
             const children = await CategoryModel.find({parent} , {__v:0});
             return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
                 data: {
-                    statusCode: HttpStatus.OK,
                     children
                 }
             })

@@ -4,6 +4,7 @@ const Controller = require("../controller");
 const {StatusCodes: HttpStatus} = require("http-status-codes")
 const path = require("path");
 const { createCourseSchema } = require("../../validators/admin/course.schema");
+const { default: mongoose } = require("mongoose");
 
 
 class CourseController extends Controller {
@@ -14,7 +15,7 @@ class CourseController extends Controller {
             const courseSchema = await createCourseSchema.validateAsync(req.body);
             const {fileUploadPath , filename} = courseSchema;
             const image = path.join(fileUploadPath , filename).replace(/\\/g , "/");
-            const {title , short_text , text , tags , category, price , discount, type} = courseSchema;
+            const {title , short_text , text , tags , category, price , discount, type, status} = courseSchema;
             const teacher = req.user._id;
             if(Number(price) > 0 && type === "free") throw createHttpError.BadRequest("برای دوره رایگان نمیتوان قیمت ثبت کرد .");
             const createCourse = await CourseModel.create({
@@ -28,7 +29,7 @@ class CourseController extends Controller {
                 type,
                 image,
                 time: "00:00:00",
-                status: "notStarted",
+                status,
                 teacher,
             });
             console.log(createCourse);
@@ -36,8 +37,8 @@ class CourseController extends Controller {
                 throw createHttpError.InternalServerError("دوره ثبت نشد")
             }
             return res.status(HttpStatus.CREATED).json({
+                statusCode: HttpStatus.CREATED,
                 data: {
-                    statusCode: HttpStatus.CREATED,
                     message: "دوره با موفقیت ایجاد گردید ."
                 }
             });
@@ -66,8 +67,8 @@ class CourseController extends Controller {
                 throw new createHttpError.NotFound("متاسفانه هیچ محصول درسی پیدا نشد .");
             }
             return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
                 data: {
-                    statusCode: HttpStatus.OK,
                     courses
                 }
             })
@@ -85,14 +86,54 @@ class CourseController extends Controller {
                 throw createHttpError.NotFound("دوره ایی یافت نشد")
             }
             return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
                 data: {
-                    statusCode: HttpStatus.OK,
                     course
                 }
             })
         }
         catch(error) {
             next(error);
+        }
+    }
+
+    async addChapter(req,res,next) {
+        try {
+            const {id,title , text} = req.body;
+            await this.findCoursesById(id);
+            const saveChapterResult = await CourseModel.updateOne({_id: id} , {
+                $push: {
+                    chapters: {title , text , episodes: []}
+                }
+            })
+            if(saveChapterResult.modifiedCount == 0) {
+                throw createHttpError.InternalServerError("فصل مورد نظر برای دوره افزوده نشد .")
+            }
+            return res.status(HttpStatus.CREATED).json({
+                statusCode: HttpStatus.CREATED,
+                data: {
+                    message: "قصل مورد نظر به دوره با موفقیت افزوده شد ."
+                }
+            })
+        }
+        catch(error) {
+            next(error)
+        }
+    }
+
+    async findCoursesById(id) {
+        try {
+            if(!mongoose.isValidObjectId(id)) {
+                throw createHttpError.BadRequest("شناسه ارسال شده معتبر نمی باشد .")
+            }
+            const courseId = await CourseModel.findById(id);
+            if(!courseId) {
+                throw createHttpError.NotFound("شناسه دوره یافت نشد .")
+            }
+            return courseId;
+        }
+        catch(error) {
+            next(error)
         }
     }
 

@@ -12,6 +12,7 @@ const createCourseSchema = Joi.object({
     price: Joi.number().error(createHttpError.BadRequest("قیمت وارد شده صحیح نمی باشد .")),
     discount: Joi.number().min(0).max(20).error(createHttpError.BadRequest("تخفیف وارد شده صحیح نمی باشد .")),
     type: Joi.string().max(20).regex(/(free|cash|special)/i),
+    status: Joi.string().regex(/(notStarted|Holding|Completed)/i),
     filename: Joi.string().regex(/(\.png|\.jpeg|\.jpg|\.png|\.webp)$/).error(createHttpError.BadRequest("تصویر ارسالی صحیح نمی باشد .")),
     fileUploadPath: Joi.allow()
 });

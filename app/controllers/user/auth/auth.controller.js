@@ -4,6 +4,7 @@ const { RandomNumberGenerator, SignAccessToken, VerifyRefreshToken, SignRefreshT
 const UserModel = require("./../../../models/users");
 const {ROLES} = require("../../../utils/constant");
 const Controller = require("../../controller");
+const {StatusCodes:HttpStatus} = require("http-status-codes");
 
 
 class UserAuthController extends Controller {
@@ -18,9 +19,9 @@ class UserAuthController extends Controller {
             if(!result) {
                 throw new createHttpError.Unauthorized("ورود ناموفق می باشد")
             }
-            return res.status(200).send({
+            return res.status(HttpStatus.OK).send({
+                statusCode: HttpStatus.OK,
                 data: {
-                    statusCode: 200,
                     message: "کد اعتبار سنجی با موفقیت ارسال شد",
                     code,
                     mobile
@@ -49,12 +50,14 @@ class UserAuthController extends Controller {
             }
             const accessToken = await SignAccessToken(user._id);
             const refreshToken = await SignRefreshToken(user._id);
-            const data = {
-                message: "به کافه کد خوش آمدید ",
-                accessToken,
-                refreshToken 
-            }
-            return res.json({data})
+            return res.status(HttpStatus.OK).json({
+                statusCode : HttpStatus.OK,
+                data : {
+                    message: "به کافه کد خوش آمدید ",
+                    accessToken,
+                    refreshToken 
+                }
+            })
         }
         catch(error) {
             next(error);
@@ -67,14 +70,10 @@ class UserAuthController extends Controller {
             code,
             expiresIn: (new Date().getTime() + 120000)
         }
-
         const result = await this.checkExistUser(mobile);
         if(result) {
-
-        
-        return (await this.updateUser(mobile , {otp}));
-      }
-
+            return (await this.updateUser(mobile , {otp}));
+        }
       return !!(await UserModel.create({
         mobile,
         otp,
@@ -106,7 +105,8 @@ class UserAuthController extends Controller {
             const user = await UserModel.findOne({mobile});
             const accessToken = await SignAccessToken(user._id);
             const newRefreshToken = await SignRefreshToken(user._id);
-            return res.json({
+            return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
                 data: {
                     accessToken,
                     refreshToken: newRefreshToken

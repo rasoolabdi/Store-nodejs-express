@@ -7,6 +7,7 @@ const router = Router();
 router.post("/add" ,uploadFile.single("image") , stringToArray("tags") ,courseController.addCourse);
 router.get("/allCourses" , courseController.getListOfProduct);
 router.get("/:id" , courseController.getCourseById);
+router.put("/add-chapter" , courseController.addChapter);
 
 module.exports = {
     AdminApiCourseRouter: router

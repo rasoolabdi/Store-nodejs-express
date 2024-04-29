@@ -29,8 +29,8 @@ class AdminBlogController extends Controller {
                 author
             });
             return res.status(HttpStatus.CREATED).json({
+                statusCode: HttpStatus.CREATED,
                 data: {
-                   statusCode: HttpStatus.CREATED,
                      message: "بلاگ با موفقیت ایجاد گردید ."
                }
             });
@@ -47,8 +47,8 @@ class AdminBlogController extends Controller {
             const {id} = req.params;
             const blog = await this.findBlog({_id: id});
             return res.status(HttpStatus.OK).json({
+                statusCode:HttpStatus.OK,
                 data: {
-                    statusCode:HttpStatus.OK,
                     blog
                 }
             })
@@ -105,8 +105,8 @@ class AdminBlogController extends Controller {
                 }
             ]);
             return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
                 data: {
-                    statusCode: HttpStatus.OK,
                     blogs
                 }
             })
@@ -136,8 +136,8 @@ class AdminBlogController extends Controller {
                 throw createHttpError.InternalServerError("بلاگ حذف نشد. مجدد تلاش کنید .")
             }
             return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
                 data: {
-                    statusCode: HttpStatus.OK,
                     message: "بلاگ یا مقاله با موفقیت حذف گردید ."
                 }
             })
@@ -179,8 +179,8 @@ class AdminBlogController extends Controller {
                 throw createHttpError.InternalServerError("آپدیت انجام نشد")
             }
             return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
                 data: {
-                    statusCode: HttpStatus.OK,
                     message: "آپدیت بلاگ با موفقیت انجام شد ."
                 }
             })

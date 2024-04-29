@@ -46,11 +46,10 @@ class ProductController extends Controller {
                 features , 
                 supplier,
                 type,
-                
             });
             return res.status(HttpStatus.CREATED).json({
+                statusCode: HttpStatus.CREATED,
                 data: {
-                    statusCode: HttpStatus.CREATED,
                     message: "ثبت محصول با موفقیت انجام شد"
                 }
             });
@@ -76,8 +75,8 @@ class ProductController extends Controller {
                 throw new {status: HttpStatus.INTERNAL_SERVER_ERROR , message: "خطا از سمت سرور رخ داده است ."}
             }
             return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
                 data: {
-                    statusCode: 200,
                     message: "محصول مورد نظر با موفقیت آپدیت شد ."
                 }
             });
@@ -94,8 +93,8 @@ class ProductController extends Controller {
             const removeProduct = await ProductModel.deleteOne({_id: product});
             if(removeProduct.deletedCount == 0) throw new createHttpError.InternalServerError("خطا از سمت سرور رخ داده است . محصول مورد نظر حذف نشد .")
             return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
                 data: {
-                    statusCode: HttpStatus.OK,
                     message: "محصول مورد نظر با موفقیت حذف شد ."
                 }
             })
@@ -124,8 +123,8 @@ class ProductController extends Controller {
                 products = await ProductModel.find({} , {__v:0})
             }
             return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
                 data: {
-                    statusCode: HttpStatus.OK,
                     products
                 }
             })
@@ -135,22 +134,13 @@ class ProductController extends Controller {
         }
     }
 
-    async searchIndex(req,res,next) {
-        try {
-
-        }
-        catch(e) {
-            next(e);
-        }
-    }
-
     async getOneProduct(req,res,next) {
         try {
             const {id} = req.params;
             const product = await this.findProductById(id);
             return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
                 data: {
-                    statusCode: HttpStatus.OK,
                     product
                 }
             })
