@@ -1,10 +1,10 @@
 const createHttpError = require("http-errors");
-const ProductModel = require("../../models/products");
-const { deleteFileInPublic, ListOfImagesFromRequest, copyObject, setFeatures, deleteInvalidPropertyInObject } = require("../../utils/function");
-const { createProductSchema } = require("../../validators/admin/product.schema");
-const Controller = require("../controller");
+const ProductModel = require("../../../models/products");
+const { deleteFileInPublic, ListOfImagesFromRequest, copyObject, setFeatures, deleteInvalidPropertyInObject } = require("../../../utils/function");
+const { createProductSchema } = require("../../../validators/admin/product.schema");
+const Controller = require("../../controller");
 const path = require("path");
-const { ObjectIdValidator } = require("../../validators/public.validator");
+const { ObjectIdValidator } = require("../../../validators/public.validator");
 const {StatusCodes: HttpStatus} = require("http-status-codes");
 
 const ProductBlackList = {

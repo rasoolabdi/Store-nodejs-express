@@ -73,23 +73,7 @@
  *                                      example: "rasool abdi"
  */
 
-/**
- * 
- * @swagger
- *  definitions:
- *      publicDefinition:
- *          type: object
- *          properties:
- *              statusCode:
- *                  type: integer
- *                  example: 20x
- *              data:
- *                  type: object
- *                  properties:
- *                      message:
- *                          type: string
- *                          example: "the best message for that action"
- */
+
 
 
 
@@ -147,26 +131,7 @@
  *                      description: the image of course
  *                  
  */
-/**
- * @swagger
- *  components:
- *      schemas:
- *         AddChapter:
- *              type: object
- *              required:
- *                  -   id
- *                  -   title
- *              properties:
- *                  id:
- *                     type: string
- *                     example: 6628fd025e7b8e186ca409a4
- *                  title:
- *                     type: string
- *                     example: "فصل ۱ : آموزش مقدماتی تود جی اس"
- *                  text:
- *                      type: string
- *                      example: "توضیحات مربوط به این فصل"
- */
+
 
 /**
  * @swagger
@@ -223,25 +188,8 @@
  *          responses:
  *              200:
  *                  description: getCourseById successfully
- */
-
-/**
- * @swagger 
- *  /admin/courses/add-chapter:
- *      put:
- *          tags: [Course(AdminPanel)]
- *          summary: add new chapter to course
- *          requestBody:
- *              required: true
- *              content:
- *                  application/x-www-form-urlencoded:
- *                      schema: 
- *                          $ref: '#/components/schemas/AddChapter'
- *                  application/json:
- *                      schema:
- *                          $ref: '#/components/schemas/AddChapter'
- *          responses:
- *              201:
- *                  description: create new chapter successfully
- *              
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/definitions/publicDefinition'
  */

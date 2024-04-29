@@ -1,9 +1,9 @@
 const createHttpError = require("http-errors");
-const CourseModel = require("../../models/course");
-const Controller = require("../controller");
+const CourseModel = require("../../../models/course");
+const Controller = require("../../controller");
 const {StatusCodes: HttpStatus} = require("http-status-codes")
 const path = require("path");
-const { createCourseSchema } = require("../../validators/admin/course.schema");
+const { createCourseSchema } = require("../../../validators/admin/course.schema");
 const { default: mongoose } = require("mongoose");
 
 
@@ -97,30 +97,6 @@ class CourseController extends Controller {
         }
     }
 
-    async addChapter(req,res,next) {
-        try {
-            const {id,title , text} = req.body;
-            await this.findCoursesById(id);
-            const saveChapterResult = await CourseModel.updateOne({_id: id} , {
-                $push: {
-                    chapters: {title , text , episodes: []}
-                }
-            })
-            if(saveChapterResult.modifiedCount == 0) {
-                throw createHttpError.InternalServerError("فصل مورد نظر برای دوره افزوده نشد .")
-            }
-            return res.status(HttpStatus.CREATED).json({
-                statusCode: HttpStatus.CREATED,
-                data: {
-                    message: "قصل مورد نظر به دوره با موفقیت افزوده شد ."
-                }
-            })
-        }
-        catch(error) {
-            next(error)
-        }
-    }
-
     async findCoursesById(id) {
         try {
             if(!mongoose.isValidObjectId(id)) {
@@ -136,10 +112,10 @@ class CourseController extends Controller {
             next(error)
         }
     }
-
-   
-
-
 }
 
-module.exports = new CourseController();
+module.exports = {
+    AbstractCourseController: CourseController,
+    courseController : new CourseController()
+
+}
