@@ -37,14 +37,14 @@ class ChapterController extends AbstractCourseController {
 
     async chaptersOfCourse(req,res,next) {
         try {
-            const {id} = req.params;
+            const {courseId} = req.params;
             // await this.findCoursesById(id); //when use AbstractCourseController
             // await courseController.findCoursesById(id); when get id from function findCourseById from course controller
-            const chapter = await this.getChaptersOfCourse(id);
+            const course = await this.getChaptersOfCourse(courseId);
             return res.status(HttpStatus.OK).json({
                 statusCode: HttpStatus.OK,
                 data : {
-                    chapter
+                    course
                 }                
             })
         }
@@ -54,7 +54,7 @@ class ChapterController extends AbstractCourseController {
     }
 
     async getChaptersOfCourse (id) {
-        const chapters = await CourseModel.find({_id: id} , {chapters: 1});
+        const chapters = await CourseModel.find({_id: id} , {chapters: 1 , title: 1});
         if(!chapters) {
             throw createHttpError.NotFound("فصل های درس مورد نظر یافت نشد .")
         }

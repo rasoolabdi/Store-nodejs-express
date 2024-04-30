@@ -43,7 +43,7 @@
  *                              properties:
  *                                  _id:
  *                                      type: string
- *                                      example:     
+ *                                      example: "662f53491db19e40ea640365"   
  *                                  title: 
  *                                      type: string
  *                                      example: "summary title of course"

@@ -19,6 +19,51 @@
  *                      example: "توضیحات مربوط به این فصل"
  */
 
+/**
+ * @swagger
+ *  definitions:
+ *      chapterOfCourseDefinition:
+ *          type: object
+ *          properties:
+ *              statusCode:
+ *                  type: integer
+ *                  exapmle: 200
+ *              data: 
+ *                  type: object
+ *                  properties:
+ *                      course:
+ *                          type: array
+ *                          items:
+ *                              type: object
+ *                              properties:
+ *                                  _id: 
+ *                                      type: string
+ *                                      example: "6628fd025e7b8e186ca409a4"
+ *                                  title:
+ *                                      type: string
+ *                                      example: title of course
+ *                                  chapters:
+ *                                      type: array
+ *                                      items:
+ *                                          type: object
+ *                                          properties:
+ *                                              _id: 
+ *                                                  type: string
+ *                                                  example: "6628fd025e7b8e186ca409a4"
+ *                                              title:
+ *                                                  type: string
+ *                                                  example: "title of chapter"
+ *                                              text:
+ *                                                  type: string
+ *                                                  example: "text of chapter"
+ *                                      
+ *                                      
+ *                          
+ * 
+ *                  
+ *                
+ */
+
 
 /**
  * @swagger 
@@ -47,12 +92,12 @@
 
 /**
  * @swagger
- *  /admin/chapter/{id}:
+ *  /admin/chapter/list/{courseId}:
  *      get:
  *          tags: [Chapters(AdminPanel)]
  *          summary: get chapters by id from courses
  *          parameters:
- *              -   name: id
+ *              -   name: courseId
  *                  in: path
  *                  type: string
  *                  required: true
@@ -62,5 +107,5 @@
  *                  content:
  *                      application/json:
  *                          schema:
- *                              $ref: '#/definitions/publicDefinition'
+ *                              $ref: '#/definitions/chapterOfCourseDefinition'
  */

@@ -4,7 +4,7 @@ const router = Router();
 
 
 router.put("/add-chapter" , chapterController.addChapter);
-router.get("/:id" , chapterController.chaptersOfCourse);
+router.get("/list/:courseId" , chapterController.chaptersOfCourse);
 
 module.exports= {
     AdminApiChapterRouter : router
