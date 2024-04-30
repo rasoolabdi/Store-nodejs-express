@@ -41,7 +41,7 @@
  *                  content:
  *                      application/json:
  *                          schema:
- *                              $ref: '#/difinitions/publicDefinition'
+ *                              $ref: '#/definitions/publicDefinition'
  *              
  */
 
@@ -59,4 +59,8 @@
  *          responses:
  *              200:
  *                  description: getChapterOfCourse successfully
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/definitions/publicDefinition'
  */

@@ -19,6 +19,84 @@
 
 /**
  * @swagger
+ *  definitions:
+ *      getAllListOfProduct:
+ *          type: object
+ *          properties:
+ *              statusCode:
+ *                  type: integer
+ *                  example: 200
+ *              data:
+ *                  type: object
+ *                  properties:
+ *                      products:
+ *                          type: array
+ *                          items:
+ *                              type: object
+ *                              properties:
+ *                                  _id: 
+ *                                      type: string
+ *                                      example: "662e1562785dd66a5341845a"
+ *                                  title:
+ *                                      type: string
+ *                                      example: "summary title of product"
+ *                                  short_text:
+ *                                      type: string
+ *                                      example: "short text of product"
+ *                                  text:
+ *                                      type: string
+ *                                      example: "text and describe of product"
+ *                                  tags:
+ *                                      type: array
+ *                                      example: [apple , sumsung]
+ *                                  images:
+ *                                      type: array
+ *                                      example: [
+ *                                          upload/product/02/01/02/1.png,
+ *                                          upload/product/02/01/02/2.png
+ *                                      ]
+ *                                  category:
+ *                                      type: string
+ *                                      example: "662e1562785dd66a5341845a"
+ *                                  price:
+ *                                      type: integer
+ *                                      example: 1500000
+ *                                  discount:
+ *                                      type: integer
+ *                                      example: 10
+ *                                  count:
+ *                                      type: integer
+ *                                      example: 30
+ *                                  type: 
+ *                                      type: string
+ *                                      example: "physical or virtual"
+ *                                  supplier:
+ *                                      type: string
+ *                                      example: "662e1562785dd66a5341845a"
+ *                                  features:
+ *                                      type: object
+ *                                      properties:
+ *                                          width: 
+ *                                              type: integer
+ *                                              example: 20
+ *                                          height: 
+ *                                              type: integer
+ *                                              example: 20
+ *                                          weight: 
+ *                                              type: integer
+ *                                              example: 20
+ *                                          length: 
+ *                                              type: integer
+ *                                              example: 20
+ *                                          colors: 
+ *                                              type: array
+ *                                              example: [red,pink]
+ *                                                  
+ *                                                  
+ */
+
+/**
+ * @swagger
  *  components:
  *      schemas:
  *          Product:
@@ -160,6 +238,10 @@
  *          responses:
  *              201:
  *                  description: createProduct successfully
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/definitions/publicDefinition'
  */
 
 
@@ -183,6 +265,10 @@
  *          responses: 
  *              200:
  *                 description: updated product successfully
+ *                 content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/definitions/publicDefinition'
  */
 
 
@@ -200,6 +286,10 @@
  *          responses: 
  *              200:
  *                  description: getAllProducts successfully
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/definitions/getAllListOfProduct'
  */
 
 
@@ -217,6 +307,10 @@
  *          responses: 
  *              200:
  *                  description: getOneProductById successfully
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/definitions/getAllListOfProduct'
  */
 
 
@@ -234,4 +328,8 @@
  *          responses:
  *              200:
  *                  description: delete successfully
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/definitions/publicDefinition'
  */
