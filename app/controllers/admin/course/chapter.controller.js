@@ -53,12 +53,48 @@ class ChapterController extends AbstractCourseController {
         }
     }
 
+
+    async removeChapterOfCourseById(req,res,next) {
+        try{
+            const {chapterId} = req.params;
+            const chapter = await this.getOneChapter(chapterId);
+            console.log(chapter)
+            const removeResult = await CourseModel.updateOne({"chapters._id": chapterId} , {
+                $pull: {
+                    chapters : {
+                        _id : chapterId
+                    }
+                }
+            });
+            if(removeResult.modifiedCount == 0)  {
+                throw createHttpError.InternalServerError("حذف فصل مورد نظر با این شناسه انجام نشد .")
+            }
+            return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
+                data: {
+                    message: "فصل مورد نظر با موفقیت حذف شد ."
+                }
+            })
+        }
+        catch(error) {
+            next(error);
+        }
+    }
+
     async getChaptersOfCourse (id) {
         const chapters = await CourseModel.find({_id: id} , {chapters: 1 , title: 1});
         if(!chapters) {
             throw createHttpError.NotFound("فصل های درس مورد نظر یافت نشد .")
         }
         return chapters;
+    }
+
+    async getOneChapter(id) {
+        const chapter = await CourseModel.findOne({"chapters._id" : id} , {"chapters.$":1});
+        if(!chapter) {
+            throw createHttpError.NotFound("فصل مورد نظر با این شناسه یافت نشد .");
+        }
+        return chapter;
     }
 }
 
