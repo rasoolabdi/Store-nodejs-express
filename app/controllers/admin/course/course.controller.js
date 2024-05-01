@@ -58,10 +58,16 @@ class CourseController extends Controller {
                     $text: {
                         $search: search
                     }
-                } , {__v: 0}).sort({_id: -1});
+                } , {__v: 0}).sort({_id: -1}).populate([
+                    {path: "category" , select: {children: 0 , parent: 0}},
+                    {path: "teacher" , select: {first_name: 1 , last_name: 1 , mobile: 1 , email: 1}}
+                ]);
             }
             else{
-                courses = await CourseModel.find({} , {__v: 0}).sort({_id: -1}) ;
+                courses = await CourseModel.find({} , {__v: 0}).sort({_id: -1}).populate([
+                    {path: "category" , select: {children: 0 , parent: 0}},
+                    {path: "teacher" , select: {first_name: 1, last_name:1 , mobile: 1, email: 1}}
+                ]) ;
             }
             if(!courses) {
                 throw new createHttpError.NotFound("متاسفانه هیچ محصول درسی پیدا نشد .");

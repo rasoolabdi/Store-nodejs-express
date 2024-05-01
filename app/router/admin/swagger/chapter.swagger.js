@@ -17,6 +17,15 @@
  *                  text:
  *                      type: string
  *                      example: "توضیحات مربوط به این فصل"
+ *         EditChapter:
+ *              type: object
+ *              properties:
+ *                  title:
+ *                     type: string
+ *                     example: "فصل ۱ : آموزش مقدماتی تود جی اس"
+ *                  text:
+ *                      type: string
+ *                      example: "توضیحات مربوط به این فصل"
  */
 
 /**
@@ -126,6 +135,35 @@
  *                  description: deleteOneChapter successfully
  *                  content:
  *                      application.json:
+ *                          schema:
+ *                              $ref: '#/definitions/publicDefinition'
+ */
+
+/**
+ * @swagger
+ *  /admin/chapter/update/{chapterId}:
+ *      patch:
+ *          tags: [Chapters(AdminPanel)]
+ *          summary: update detail of chapter from course by Id
+ *          parameters:
+ *              -   name: chapterId
+ *                  in: path
+ *                  type: string
+ *                  required: true
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  application/x-www-form-urlencoded:
+ *                      schema:
+ *                          $ref: '#/components/schemas/EditChapter'
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/EditChapter'
+ *          responses:
+ *              200:
+ *                  description: update chapter successfully
+ *                  content:
+ *                      application/json:
  *                          schema:
  *                              $ref: '#/definitions/publicDefinition'
  */

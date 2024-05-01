@@ -4,6 +4,7 @@ const Controller = require("../../controller");
 const {StatusCodes: HttpStatus} = require("http-status-codes");
 const {AbstractCourseController} = require("./course.controller");
 const courseController = require("./course.controller");
+const { deleteInvalidPropertyInObject } = require("../../../utils/function");
 
 
 
@@ -73,6 +74,32 @@ class ChapterController extends AbstractCourseController {
                 statusCode: HttpStatus.OK,
                 data: {
                     message: "فصل مورد نظر با موفقیت حذف شد ."
+                }
+            })
+        }
+        catch(error) {
+            next(error);
+        }
+    }
+
+    async updateChapterById(req,res,next) {
+        try {
+            const {chapterId} = req.params;
+            await this.getOneChapter(chapterId);
+            const data = req.body;
+            deleteInvalidPropertyInObject(data , ["_id"])
+            const updateChapterResult = await CourseModel.updateOne({"chapters._id" : chapterId} , {
+                $set : {
+                    "chapters.$": data
+                }
+            });
+            if(updateChapterResult.modifiedCount == 0) {
+                throw new createHttpError.InternalServerError("به روز رسانی فصل مورد نظر انجام نشد")
+            }
+            return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
+                data: {
+                    message: "به روز رسانی فصل مورد نظر با موفقیت انجام شد ."
                 }
             })
         }
