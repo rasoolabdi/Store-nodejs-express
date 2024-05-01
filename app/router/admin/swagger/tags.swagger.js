@@ -7,6 +7,8 @@
  *          description: managment course section like manage episode , chapter and courses
  *     -    name: Chapters(AdminPanel)
  *          description: managment chapters of course
+ *     -    name: Episodes(AdminPanel)
+ *          description: "the video or text(episode) of Chapter section"
  *     -    name: Product(AdminPanel)
  *          description: managment products route
  *     -    name: Category(AdminPanel)
