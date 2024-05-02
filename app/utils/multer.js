@@ -50,8 +50,24 @@ function fileFilter(req,file , cb) {
     }
 }
 
-const maxSize = 400 * 1000;
-const uploadFile = multer({storage , fileFilter , limits: {fileSize: maxSize}});
+function videoFilter(req,file,cb) {
+    const ext = path.extname(file.originalname);
+    const mimeTypes = [".mp4" , ".mpg" , ".mov" , ".avi" , ".mkv"] ;
+    if(mimeTypes.includes(ext)) {
+        return cb(null , true);
+    }
+    else {
+        return cb(createHttpError.BadRequest("لطفا برای ویدئو فرمت مناسب انتخاب کنید ."))
+    }
+}
+
+
+const pictureMaxSize = 400 * 1000;
+const videoMaxSize = 10 * 1000 * 1000;
+const uploadFile = multer({storage , fileFilter , limits: {fileSize: pictureMaxSize} });
+const uploadVideo = multer({storage , videoFilter , limits: {fileSize: videoMaxSize} });
+
 module.exports = {
-    uploadFile
+    uploadFile,
+    uploadVideo
 }

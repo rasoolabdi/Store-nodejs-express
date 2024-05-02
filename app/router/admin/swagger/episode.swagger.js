@@ -11,7 +11,7 @@
  *                      -   chapterId
  *                      -   title
  *                      -   text
- *                      -   time
+ *                      -   video
  *                      -   type
  *                  properties:
  *                      courseId:
@@ -36,11 +36,10 @@
  *                          enum:
  *                              -   unlock
  *                              -   lock
- *                      time:
+ *                      video:
  *                          type: string
- *                          description: the time of video (HH:mm:ss)
- *                          example: 00:08:35
- *                      
+ *                          description: the video of video (HH:mm:ss)
+ *                          format: binary                      
  */
 
 /**
@@ -52,10 +51,7 @@
  *          requestBody:
  *              required: true
  *              content:
- *                  application/x-www-form-urlencoded:
- *                      schema:
- *                          $ref: '#/components/schemas/AddEpisode'
- *                  application/json:
+ *                  multipart/form-data:
  *                      schema:
  *                          $ref: '#/components/schemas/AddEpisode'
  *          responses:

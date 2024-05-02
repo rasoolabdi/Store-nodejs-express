@@ -13,7 +13,7 @@ const createCourseSchema = Joi.object({
     discount: Joi.number().min(0).max(20).error(createHttpError.BadRequest("تخفیف وارد شده صحیح نمی باشد .")),
     type: Joi.string().max(20).regex(/(free|cash|special)/i),
     status: Joi.string().regex(/(notStarted|Holding|Completed)/i),
-    filename: Joi.string().regex(/(\.png|\.jpeg|\.jpg|\.png|\.webp)$/).error(createHttpError.BadRequest("تصویر ارسالی صحیح نمی باشد .")),
+    filename: Joi.string().regex(/(\.png|\.jpeg|\.jpg|\.png|\.webp)$/).error(createHttpError.BadRequest("فرمت تصویر ارسالی صحیح نمی باشد .")),
     fileUploadPath: Joi.allow()
 });
 
@@ -21,9 +21,10 @@ const createEpisodeSchema = Joi.object({
     title: Joi.string().min(3).max(50).error(createHttpError.BadRequest("عنوان اپیزود صحیح نمی باشد .")),
     text: Joi.string().error(createHttpError.BadRequest("متن ارسالی برای اپیزود صحیح نمی باشد .")),
     type: Joi.string().regex(/(lock|unlock)/i),
-    time: Joi.string().regex(/[0-9]{2}\:[0-9]{2}\:[0-9]{2}/i),
     chapterId: Joi.string().regex(MongoIDPattern).error(createHttpError.BadRequest("شناسه فصل مورد نظر صحیح نمی باشد .")),
-    courseId: Joi.string().regex(MongoIDPattern).error(createHttpError.BadRequest("شناسه دوره مورد نظر صحیح نمی باشد ."))
+    courseId: Joi.string().regex(MongoIDPattern).error(createHttpError.BadRequest("شناسه دوره مورد نظر صحیح نمی باشد .")),
+    filename: Joi.string().regex(/(\.mp4|\.mpg|\.mov|\.avi|\.mkv)$/).error(createHttpError.BadRequest("فرمت فیلم ارسالی صحیح نمی باشد")),
+    fileUploadPath: Joi.allow()
 })
 
 module.exports = {
