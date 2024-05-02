@@ -54,10 +54,10 @@ function videoFilter(req,file,cb) {
     const ext = path.extname(file.originalname);
     const mimeTypes = [".mp4" , ".mpg" , ".mov" , ".avi" , ".mkv"] ;
     if(mimeTypes.includes(ext)) {
-        return cb(null , true);
+        cb(null , true);
     }
     else {
-        return cb(createHttpError.BadRequest("لطفا برای ویدئو فرمت مناسب انتخاب کنید ."))
+        cb(createHttpError.BadRequest("لطفا برای ویدئو فرمت مناسب انتخاب کنید ."))
     }
 }
 
