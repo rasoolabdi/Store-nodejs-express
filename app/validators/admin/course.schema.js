@@ -23,7 +23,7 @@ const createEpisodeSchema = Joi.object({
     type: Joi.string().regex(/(lock|unlock)/i),
     chapterId: Joi.string().regex(MongoIDPattern).error(createHttpError.BadRequest("شناسه فصل مورد نظر صحیح نمی باشد .")),
     courseId: Joi.string().regex(MongoIDPattern).error(createHttpError.BadRequest("شناسه دوره مورد نظر صحیح نمی باشد .")),
-    filename: Joi.string().regex(/(\.mp4|\.mpg|\.mov|\.avi|\.mkv)$/).error(createHttpError.BadRequest("فرمت فیلم ارسالی صحیح نمی باشد")),
+    filename: Joi.string().regex(/(\.mp4|\.mpg|\.mov|\.avi|\.mkv|\.mpeg)$/).error(createHttpError.BadRequest("فرمت فیلم ارسالی صحیح نمی باشد")),
     fileUploadPath: Joi.allow()
 })
 

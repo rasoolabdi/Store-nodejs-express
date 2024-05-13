@@ -38,7 +38,7 @@
  *                              -   lock
  *                      video:
  *                          type: string
- *                          description: the video of video (HH:mm:ss)
+ *                          description: the file of video (HH:mm:ss)
  *                          format: binary                      
  */
 

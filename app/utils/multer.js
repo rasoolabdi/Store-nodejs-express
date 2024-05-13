@@ -52,7 +52,7 @@ function fileFilter(req,file , cb) {
 
 function videoFilter(req,file,cb) {
     const ext = path.extname(file.originalname);
-    const mimeTypes = [".mp4" , ".mpg" , ".mov" , ".avi" , ".mkv"] ;
+    const mimeTypes = [".mp4" , ".mpg" , ".mov" , ".avi" , ".mkv" , ".mpeg"] ;
     if(mimeTypes.includes(ext)) {
         cb(null , true);
     }
@@ -63,7 +63,7 @@ function videoFilter(req,file,cb) {
 
 
 const pictureMaxSize = 400 * 1000;
-const videoMaxSize = 10 * 1000 * 1000;
+const videoMaxSize = 100 * 1000 * 1000;
 const uploadFile = multer({storage , fileFilter , limits: {fileSize: pictureMaxSize} });
 const uploadVideo = multer({storage , videoFilter , limits: {fileSize: videoMaxSize} });
 

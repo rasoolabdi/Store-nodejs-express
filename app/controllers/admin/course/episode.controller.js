@@ -13,8 +13,8 @@ class EpisodeController extends Controller {
 
     async addNewEpisode(req,res,next) {
         try {
-            const validationEpisode = await createEpisodeSchema.validateAsync(req.body);
-            const {title , text , type , chapterId , courseId , filename , fileUploadPath} = validationEpisode;
+            // const validationEpisode = await createEpisodeSchema.validateAsync(req.body);
+            const {title , text , type , chapterId , courseId , filename , fileUploadPath} = await createEpisodeSchema.validateAsync(req.body);
             const videoAddress = path.join(fileUploadPath,filename).replace(/\\/g , "/");
             const videoURL = `${process.env.BASE_URL}:${process.env.APPLICATION_PORT}/${videoAddress}`;
             const seconds = await getVideoDurationInSeconds(videoURL);

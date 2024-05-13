@@ -130,7 +130,7 @@ function getTime(seconds) {
     if(minutes > 60) {
         total = minutes / 60;
         let [h1, percent] = String(total).split(".");
-        houre = h1;
+        houre = h1
         minutes = Math.round((percent * 60) / 100).toString().substring(0, 2);
     }
     if(String(houre).length == 1) houre = `0${houre}`;
