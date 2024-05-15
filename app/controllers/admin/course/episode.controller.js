@@ -2,7 +2,7 @@ const { getVideoDurationInSeconds } = require("get-video-duration");
 const { createEpisodeSchema } = require("../../../validators/admin/course.schema");
 const Controller = require("../../controller");
 const path = require("path");
-const { getTime, deleteFileInPublic, deleteInvalidPropertyInObject } = require("../../../utils/function");
+const { getTime, deleteFileInPublic, deleteInvalidPropertyInObject, copyObject } = require("../../../utils/function");
 const {StatusCodes: HttpStatus} = require("http-status-codes");
 const CourseModel = require("../../../models/course");
 const createHttpError = require("http-errors");
@@ -55,6 +55,7 @@ class EpisodeController extends Controller {
     async removeEpisodeById(req,res,next) {
         try {
             const {id: episodeId} = await isValidObjectId.validateAsync({id: req.params.episodeId});
+            await this.getOneEpisode(episodeId);
             const removeEpisodeResult = await CourseModel.updateOne({
                 "chapters.episodes._id" : episodeId,
             } , {
@@ -82,15 +83,18 @@ class EpisodeController extends Controller {
     async updateEpisode(req,res,next) {
         try {
             const {id: episodeId} = await isValidObjectId.validateAsync({id: req.params.episodeId});
-            // const episodeId = req.body.id;
+            // const episodeId = req.body.episodeId;
+            const episode = await this.getOneEpisode(episodeId);
             const {fileUploadPath , filename} = req.body;
             let blackListFields = ["_id"];
             if(filename && fileUploadPath) {
                 const fileAddress = path.join(fileUploadPath,filename);
                 req.body.videoAddress = fileAddress.replace(/\\/g , "/");
-                const videoURL = `${process.env.BASE_URL}:${process.env.APPLICATION_PORT}/${videoAddress}`;
+                const videoURL = `${process.env.BASE_URL}:${process.env.APPLICATION_PORT}/${req.body.videoAddress}`;
                 const seconds = await getVideoDurationInSeconds(videoURL);
                 req.body.time = getTime(seconds);
+                blackListFields(fileUploadPath);
+                blackListFields(filename);
             }
             else {
                 blackListFields.push("videoAddress");
@@ -98,14 +102,18 @@ class EpisodeController extends Controller {
             }
             const data = req.body;
             deleteInvalidPropertyInObject(data , blackListFields);
+            const newEpisode = {
+                ... episode,
+                ... data
+            }
             const editEpisodeResult = await CourseModel.updateOne({
                 "chapters.episodes._id" : episodeId
             }, {
                 $set: {
-                    "chapters.$.episodes" : data
+                    "chapters.$.episodes" : newEpisode
                 }
             })
-            if(editEpisodeResult.modifiedCount == 0) {
+            if(!editEpisodeResult.modifiedCount) {
                 throw new createHttpError.InternalServerError("ویرایش اپیزود انجام نشد .")
             }
             return res.status(HttpStatus.OK).json({
@@ -120,7 +128,19 @@ class EpisodeController extends Controller {
         }
     }
 
-
+    async getOneEpisode(episodeId) {
+        const course = await CourseModel.findOne({"chapters.episodes._id" : episodeId} , {
+            "chapters.$.episodes" : 1
+        })
+        if(!course) {
+            throw new createHttpError.NotFound("دوره ایی با این شناسه یافت نشد .")
+        }
+        const episode = await course?.chapters?.[0]?.episodes?.[0];
+        if(!episode) {
+            throw new createHttpError.NotFound("اپیزودی با این شناسه یافت نشد .")
+        }
+        return copyObject(episode);
+    }
 };
 
 module.exports = new EpisodeController();
