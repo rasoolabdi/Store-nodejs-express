@@ -5,7 +5,7 @@ const {StatusCodes: HttpStatus} = require("http-status-codes")
 const path = require("path");
 const { createCourseSchema } = require("../../../validators/admin/course.schema");
 const { default: mongoose } = require("mongoose");
-const { copyObject, deleteInvalidPropertyInObject, deleteFileInPublic } = require("../../../utils/function");
+const { copyObject, deleteInvalidPropertyInObject, deleteFileInPublic, getTimeOfCourse } = require("../../../utils/function");
 const { ok } = require("assert");
 
 
@@ -30,7 +30,6 @@ class CourseController extends Controller {
                 discount,
                 type,
                 image,
-                time: "00:00:00",
                 status,
                 teacher,
             });
@@ -119,6 +118,7 @@ class CourseController extends Controller {
         try {
             const {id} = req.params;
             const course = await CourseModel.findById(id, {__v:0});
+            course.time = getTimeOfCourse(course?.chapters);
             if(!course) {
                 throw createHttpError.NotFound("دوره ایی یافت نشد")
             }

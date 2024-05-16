@@ -139,6 +139,36 @@ function getTime(seconds) {
     return (houre + ":" + minutes + ":" + second);
 }
 
+function getTimeOfCourse(chapters = []) {
+    let time , houre , minutes , second = 0;
+    for(const chapter of chapters) {
+        if(Array.isArray(chapter?.episodes)) {
+            for (const episode of chapter.episodes) {
+                if(episode?.time) time = episode.time.split(":");
+                else time = "00:00:00".split(":");
+                if(time.length == 3){
+                    second += Number(time[0]) * 3600; //convert houre to second
+                    second += Number(time[1]) * 60; //convert minutes to second
+                    second += Number(time[2]) //is time second
+                }
+                else if(time.length == 2) { //05:30
+                    second += Number(time[0]) * 60;
+                    second += Number(time[1]); //is time second
+                }
+            }
+        }
+    }
+    houre = Math.floor(second / 3600); //convert second to houre
+    minutes = Math.floor(second / 60) % 60; //convert second to minutes
+    second = Math.floor(second % 60); //convert and rounded second to second
+    if(String(houre).length == 1) houre = `0${houre}`;
+    if(String(minutes).length == 1) minutes = `0${minutes}`;
+    if(String(second).length == 1) second = `0${second}`;
+    return (houre + ":" + minutes + ":" + second);
+}
+
+
+
 
 module.exports = {
     RandomNumberGenerator,
@@ -150,6 +180,7 @@ module.exports = {
     copyObject,
     setFeatures,
     deleteInvalidPropertyInObject,
-    getTime
+    getTime,
+    getTimeOfCourse
     
 }
