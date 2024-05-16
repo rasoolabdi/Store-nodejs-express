@@ -2,6 +2,7 @@ const createHttpError = require("http-errors");
 const UserModel = require("../../../models/users");
 const Controller = require("../../controller");
 const {StatusCodes: HttpStatus} = require("http-status-codes");
+const { deleteInvalidPropertyInObject } = require("../../../utils/function");
 
 class UserController extends Controller {
 
@@ -39,6 +40,29 @@ class UserController extends Controller {
         }
     }
 
+    async updateUserProfile(req,res,next) {
+        try {
+            const userId = req.user._id;
+            const data = req.body
+            const blackListFields = ["Courses" , "mobile" , "otp" , "bills" , "discount" , "roles"];
+            deleteInvalidPropertyInObject(data , blackListFields);
+            const profileUpdateResult = await UserModel.updateOne({_id: userId} , {
+                $set: data
+            });
+            if(!profileUpdateResult.modifiedCount) {
+                throw new createHttpError.InternalServerError("به روز رسانی پروفایل انجام نشد .")
+            }
+            return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
+                data: {
+                    message: "به روز رسانی پروفایل با موفقیت انجام شد ."
+                }
+            })
+        }
+        catch(error) {
+            next(error);
+        }
+    }
 }
 
 module.exports = new UserController();
