@@ -28,6 +28,6 @@ const UserSchema = new mongoose.Schema({
     }
 });
 
-
+UserSchema.index({first_name:"text" , last_name: "text" , mobile: "text" , username: "text" , email: "text"});
 const UserModel = mongoose.model("user" , UserSchema);
 module.exports = UserModel;

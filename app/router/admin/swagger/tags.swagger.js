@@ -3,6 +3,8 @@
  * tags:
  *     -    name: Admin-Panel
  *          description: api's admin panel
+ *     -    name: Users(AdminPanel)
+ *          description: managment users of website
  *     -    name: Course(AdminPanel)
  *          description: managment course section like manage episode , chapter and courses
  *     -    name: Chapters(AdminPanel)
