@@ -5,6 +5,8 @@ const {StatusCodes: HttpStatus} = require("http-status-codes")
 const path = require("path");
 const { createCourseSchema } = require("../../../validators/admin/course.schema");
 const { default: mongoose } = require("mongoose");
+const { copyObject, deleteInvalidPropertyInObject, deleteFileInPublic } = require("../../../utils/function");
+const { ok } = require("assert");
 
 
 class CourseController extends Controller {
@@ -48,6 +50,35 @@ class CourseController extends Controller {
         }
     }
 
+    async updateCourseById(req,res,next) {
+        try {
+            const {id} = req.params;
+            const course = await this.findCoursesById(id);
+            const data = copyObject(req.body);
+            const {fileUploadPath , filename} = req.body;
+            let blackListFields = ["time" , "chapters", "episodes","comments","students","bookmarks","likes","dislikes","fileUploadPath","filename"];
+            deleteInvalidPropertyInObject(data , blackListFields);
+            if(req.file) {
+                data.image = path.join(fileUploadPath, filename);
+                deleteFileInPublic(course.image);
+            }
+            const updateResult = await CourseModel.updateOne({_id: id} , {
+                $set: data
+            });
+            if(!updateResult.modifiedCount) {
+                throw new createHttpError.InternalServerError("آپدیت دوره مورد نظر انچام نشد .")
+            }
+            return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
+                data: {
+                    message: "آپدیت دوره مورد نظر با موفقیت انجام شد ."
+                }
+            })
+        }
+        catch(error) {
+            next(error);
+        }
+    }
 
     async getListOfProduct(req,res,next) {
         try {

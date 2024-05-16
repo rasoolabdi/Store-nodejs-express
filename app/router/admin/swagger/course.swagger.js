@@ -132,6 +132,51 @@
  *                  
  */
 
+/**
+ * @swagger
+ *  components:
+ *      schemas:
+ *          updateCourse:
+ *              type: object
+ *              properties:
+ *                  title:
+ *                      type: string
+ *                      description: the title of course
+ *                      example: عنوان دوره
+ *                  short_text:
+ *                      type: string
+ *                      description: the short_text of course
+ *                      example: متن کوتاه از دوره
+ *                  text:
+ *                      type: string
+ *                      description: the text of course
+ *                      example: توضیحات کامل دوره
+ *                  tags:
+ *                      type: array
+ *                      description: the tags of course
+ *                  category:
+ *                      type: string
+ *                      description: the category of course
+ *                      example: 6628fd025e7b8e186ca409a4
+ *                  price:
+ *                      type: string
+ *                      description: the price of course
+ *                      example: قیمت دوره را وارد نمایید 
+ *                  discount:
+ *                      type: string
+ *                      description: the discount of course
+ *                      example: تخفیف دوره را وارد نمایید 
+ *                  type:
+ *                      $ref: "#/components/schemas/Types" 
+ *                  status:
+ *                      $ref: '#/components/schemas/Status'
+ *                  image:
+ *                      type: string
+ *                      format: binary
+ *                      description: the image of course
+ *                      
+ */
+
 
 /**
  * @swagger
@@ -153,6 +198,34 @@
  *                          schema:
  *                              $ref: '#/definitions/publicDefinition' 
  */
+
+
+/**
+ * @swagger
+ *  /admin/courses/update/{id}:
+ *      patch:
+ *           tags: [Course(AdminPanel)]
+ *           summary: update of course by id
+ *           parameters: 
+ *               -   name: id
+ *                   in: path
+ *                   type: string
+ *                   required: true
+ *           requestBody:
+ *               required: true
+ *               content:
+ *                   multipart/form-data:
+ *                       schema:
+ *                           $ref: '#/components/schemas/updateCourse'
+ *           responses:
+ *               200:
+ *                   description: update course successfully
+ *                   content:
+ *                       application/json:
+ *                           schema:
+ *                               $ref: "#/definitions/publicDefinition"
+ */
+
 
 /**
  * @swagger
@@ -193,3 +266,5 @@
  *                          schema:
  *                              $ref: '#/definitions/publicDefinition'
  */
+
+
