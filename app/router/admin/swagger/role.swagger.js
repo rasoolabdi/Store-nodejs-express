@@ -139,7 +139,7 @@
 
 /**
  * @swagger
- *  /admin/role/allRole:
+ *  /admin/role/allRoles:
  *      get:
  *          tags: [RBAC(AdminPanel)]
  *          summary: get all roles
