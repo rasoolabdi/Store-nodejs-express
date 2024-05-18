@@ -3,6 +3,8 @@
  * tags:
  *     -    name: Admin-Panel
  *          description: api's admin panel
+ *     -    name: RBAC(AdminPanel)
+ *          description: RoleBaseAccessController System create and manage role and permissions
  *     -    name: Users(AdminPanel)
  *          description: managment users of website
  *     -    name: Course(AdminPanel)

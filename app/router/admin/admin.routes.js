@@ -6,6 +6,8 @@ const { AdminApiCourseRouter } = require("./course");
 const { AdminApiChapterRouter } = require("./chapter");
 const { AdminApiEpisodeRouter } = require("./episode");
 const { AdminApiUserRouter } = require("./user");
+const { AdminApiRoleRouter } = require("./role");
+const { AdminApiPermissionRouter } = require("./permission");
 const router = Router();
 
 router.use("/category" , AdminApiCategoryRouter);
@@ -15,7 +17,10 @@ router.use("/courses" ,  AdminApiCourseRouter);
 router.use("/chapter" , AdminApiChapterRouter);
 router.use("/episode" , AdminApiEpisodeRouter)
 router.use("/user" , AdminApiUserRouter);
- 
+router.use("/role" , AdminApiRoleRouter);
+router.use("/permission" , AdminApiPermissionRouter)
+
+
 module.exports = {
     AdminRoutes : router
 }
