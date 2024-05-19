@@ -146,15 +146,16 @@
 
 /**
  * @swagger
- *  /admin/role/remove/{id}:
+ *  /admin/role/remove/{field}:
  *      delete:
  *          tags: [RBAC(AdminPanel)]
- *          summary: delete role by id
+ *          summary: delete role by field(title or ObjectId)
  *          parameters:
- *              -   name: id
+ *              -   name: field
  *                  in: path
  *                  type: string
  *                  required: true
+ *                  description: send title or ObjectId of Role for remove
  *          responses:
  *              200:
  *                  description: removeRole successfully

@@ -3,6 +3,7 @@ const RoleModel = require("../../../models/role");
 const Controller = require("../../controller");
 const {StatusCodes: HttpStatus} = require("http-status-codes");
 const { addRoleSchema } = require("../../../validators/admin/RBAC.schema");
+const { default: mongoose } = require("mongoose");
 
 class RoleController extends Controller {
 
@@ -43,6 +44,47 @@ class RoleController extends Controller {
         catch(error) {
             next(error);
         }
+    }
+
+    async removeRole(req,res,next) {
+        try {
+            const {field} = req.params;
+            const role = await this.findRoleWithIdOrTitle(field);
+            const removeRoleResult = await RoleModel.deleteOne({_id: role._id});
+            if(!removeRoleResult.deletedCount) {
+                throw new createHttpError.InternalServerError("نقش مورد نظر حذف نشد .")
+            }
+            return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
+                data: {
+                    message: "نقش مورد نظر با موفقیت حذف شد ."
+                }
+            })
+        }
+        catch(error) {
+            next(error);
+        }
+    }
+
+    async findRoleWithIdOrTitle(field) {
+        let findQuery;
+
+        //method 2
+        // let findQuery = mongoose.isValidObjectId(field) ? {_id: field} : {title: field} ; //ternery operator
+
+        //method 1 write query
+        if(mongoose.isValidObjectId(field)) {
+            findQuery = {_id: field}
+        }
+        else {
+            findQuery = {title: field}
+        }
+        const role = await RoleModel.findOne(findQuery);
+        console.log(role)
+        if(!role) {
+            throw new createHttpError.NotFound("نقش مورد نظر یافت نشد .")
+        }
+        return role;
     }
 
 
