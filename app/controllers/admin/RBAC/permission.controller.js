@@ -50,6 +50,35 @@ class PermissionController extends Controller {
             throw new createHttpError.BadRequest("سطح دسترسی مورد نظر قبلا ثبت شده است .");
         }
     }
+
+    async removePermission(req,res,next) {
+        try {
+            const {id} = req.params;
+            await this.findPermissionWithID(id);
+            const permission = await PermissionModel.deleteOne({_id: id});
+            if(!permission.deletedCount) {
+                throw new createHttpError.InternalServerError("سطح دسترسی با شناسه مورد نظر حذف نشد .")
+            }
+            return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
+                data: {
+                    message: "سطح دسترسی با موفقیت حذف شد ."
+                }
+            })
+
+        }
+        catch(error) {
+            next(error);
+        }
+    }
+
+    async findPermissionWithID(_id) {
+        const permission = await PermissionModel.findById({_id});
+        if(!permission) {
+            throw new createHttpError.NotFound("سطح دسترسی با شناسه یافت نشد .")
+        }
+        return permission;
+    }
 }
 
 module.exports = new PermissionController();
