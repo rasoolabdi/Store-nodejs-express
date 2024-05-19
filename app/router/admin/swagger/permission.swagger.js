@@ -19,9 +19,9 @@
  *                                  _id:
  *                                      type: string    
  *                                      example: "662e1562785dd66a5341845a"
- *                                  title:
+ *                                  name:
  *                                      type: string
- *                                      example: "the title of permission"
+ *                                      example: "the name of permission"
  *                                  description:
  *                                      type: string
  *                                      example: "desc of permission"
@@ -35,12 +35,12 @@
  *          Permission:
  *              type: object
  *              required:
- *                  -   title
+ *                  -   name
  *                  -   description
  *              properties:
- *                  title:
+ *                  name:
  *                      type: string
- *                      description: the title of Permission
+ *                      description: the name of Permission
  *                  description:
  *                      type: string
  *                      description: the description of permission
@@ -53,9 +53,9 @@
  *          UpdatePermission:
  *              type: object
  *              properties:
- *                  title:
+ *                  name:
  *                      type: string
- *                      description: the title of Permission
+ *                      description: the name of Permission
  *                  description:
  *                      type: string
  *                      description: the description update for permission
@@ -121,7 +121,7 @@
 
 /**
  * @swagger
- *  /admin/permission/allRole:
+ *  /admin/permission/allPermissions:
  *      get:
  *          tags: [RBAC(AdminPanel)]
  *          summary: get all permissions

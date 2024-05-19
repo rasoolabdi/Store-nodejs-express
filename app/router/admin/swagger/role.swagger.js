@@ -1,14 +1,3 @@
-/**
- * @swagger
- *  components:
- *      schemas:
- *          Permissions:
- *              type: string
- *              enum: 
- *                  -   blog
- *                  -   course
- *                  -   product
- */
 
 /**
  * @swagger
@@ -63,7 +52,8 @@
  *                      type: string
  *                      description: the title of Role
  *                  permissions:
- *                      $ref: "#/components/schemas/Permissions"
+ *                      type: array
+ *                      description: the permissionID for role
  */
 
 /**
@@ -77,7 +67,8 @@
  *                      type: string
  *                      description: the title of Role
  *                  permissions:
- *                      $ref: "#/components/schemas/Permissions"
+ *                      type: array
+ *                      description: the permissionID for role
  */
 
 /**

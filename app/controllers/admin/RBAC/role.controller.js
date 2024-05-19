@@ -29,7 +29,7 @@ class RoleController extends Controller {
 
     async getAllRoles(req,res,next) {
         try {
-            const roles = await RoleModel.find({}).populate([{path: "permission"}]);
+            const roles = await RoleModel.find({});
             if(!roles) {
                 throw new createHttpError.NotFound("هیچ رولی یافت نشد .")
             }
@@ -48,10 +48,9 @@ class RoleController extends Controller {
 
     async findRoleWithTitle(title) {
         const role = await RoleModel.findOne({title});
-        if(!role) {
+        if(role) {
             throw new createHttpError.BadRequest(" نقش یا رول مورد نظر قبلا ثبت شده است .")
         }
-        // return role;
     }
 }
 
