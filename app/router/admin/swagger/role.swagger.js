@@ -22,6 +22,9 @@
  *                                  title:
  *                                      type: string
  *                                      example: "the title of role"
+ *                                  description:
+ *                                      type: string
+ *                                      example: "the description of role"
  *                                  permission:
  *                                      type: array
  *                                      items:
@@ -47,10 +50,14 @@
  *              type: object
  *              required:
  *                  -   title
+ *                  -   description
  *              properties:
  *                  title:
  *                      type: string
  *                      description: the title of Role
+ *                  description:
+ *                      type: string
+ *                      description: the description of Role
  *                  permissions:
  *                      type: array
  *                      description: the permissionID for role
@@ -66,6 +73,9 @@
  *                  title:
  *                      type: string
  *                      description: the title of Role
+ *                  description:
+ *                      type: string
+ *                      description: the description of Role
  *                  permissions:
  *                      type: array
  *                      description: the permissionID for role

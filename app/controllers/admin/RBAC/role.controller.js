@@ -4,6 +4,7 @@ const Controller = require("../../controller");
 const {StatusCodes: HttpStatus} = require("http-status-codes");
 const { addRoleSchema } = require("../../../validators/admin/RBAC.schema");
 const { default: mongoose } = require("mongoose");
+const { copyObject, deleteInvalidPropertyInObject } = require("../../../utils/function");
 
 class RoleController extends Controller {
 
@@ -58,6 +59,31 @@ class RoleController extends Controller {
                 statusCode: HttpStatus.OK,
                 data: {
                     message: "نقش مورد نظر با موفقیت حذف شد ."
+                }
+            })
+        }
+        catch(error) {
+            next(error);
+        }
+    }
+
+    async updateRoleById(req,res,next) {
+        try {
+            const {id} = req.params;
+            const roleId = await this.findRoleWithIdOrTitle(id);
+            await addRoleSchema.validateAsync(req.body);
+            const data = copyObject(req.body);
+            deleteInvalidPropertyInObject(data , []);
+            const updateRole = await RoleModel.updateOne({_id: roleId._id} , {
+                $set: data
+            })
+            if(!updateRole.modifiedCount) {
+                throw new createHttpError.InternalServerError("ویرایش نقش مورد نظر انجام نشد .")
+            }
+            return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
+                data: {
+                    message: "ویرایش نقش مورد نظر با موفقیت انجام شد ."
                 }
             })
         }

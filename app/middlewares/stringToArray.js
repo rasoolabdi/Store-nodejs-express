@@ -16,7 +16,7 @@ const stringToArray = function(... args) {
                 }
                 if(Array.isArray(req.body[field])) {
                     req.body[field] = req.body[field].map(item => item.trim());
-                    req.body[field] = [... new Set(req.body[field])]
+                    req.body[field] = [... new Set(req.body[field])] //remove field duplicate Array
                 }
             }
             else {

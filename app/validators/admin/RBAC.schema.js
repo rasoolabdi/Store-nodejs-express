@@ -4,6 +4,7 @@ const { MongoIDPattern } = require("../../utils/constant");
 
 const addRoleSchema = Joi.object({
     title: Joi.string().min(3).max(30).error(createHttpError.BadRequest("عنوان نقش یا رول صحیح نمی باشد .")),
+    description: Joi.string().min(3).max(50).error(createHttpError.BadRequest("توضیحات سطح دسترسی صحیح نمی باشد .")),
     permissions: Joi.array().items(Joi.string().regex(MongoIDPattern)).error(createHttpError.BadRequest("دسترسی های ارسال شده صحیح نمی باشد ."))
 });
 
