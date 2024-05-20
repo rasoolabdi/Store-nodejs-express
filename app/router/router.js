@@ -17,7 +17,7 @@ const router = Router();
 router.use("/" , HomeRoutes);
 router.use("/user" , UserAuthRoutes);
 router.use("/developer" , DeveloperRoutes);
-router.use("/admin",VerifyAccessToken , checkRole("ADMIN"), AdminRoutes);
+router.use("/admin",VerifyAccessToken , AdminRoutes);
 
 
 module.exports = {
