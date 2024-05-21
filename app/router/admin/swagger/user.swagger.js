@@ -107,3 +107,19 @@
  *                              $ref: "#/definitions/ListOfUsers"
  *          
  */
+
+/**
+ * @swagger
+ *  /admin/user/profile:
+ *      get:
+ *          tags: [Users(AdminPanel)]
+ *          summary: get profile of user
+ *          responses:
+ *              200:
+ *                  description: getProfile successfully
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: "#/definitions/publicDefinition"
+ * 
+ */

@@ -6,6 +6,7 @@ const router = Router();
 
 router.get("/allUsers" , checkPermission([PERMISSIONS.ADMIN]) ,userController.getAllUsers);
 router.patch("/update-profile" , userController.updateUserProfile);
+router.get("/profile" , checkPermission([]) , userController.getProfile)
 
 module.exports = {
     AdminApiUserRouter : router

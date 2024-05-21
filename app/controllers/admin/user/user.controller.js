@@ -63,6 +63,24 @@ class UserController extends Controller {
             next(error);
         }
     }
+
+    async getProfile(req,res,next) {
+        try {
+            const user = req.user;
+            if(!user) {
+                throw new createHttpError.NotFound("پروفایل کاربر یافت نشد .")
+            }
+            return res.status(HttpStatus.OK).json({
+                statusCode: HttpStatus.OK,
+                data: {
+                    user
+                }
+            })
+        }
+        catch(error) {
+            next(error);
+        }
+    }
 }
 
 module.exports = new UserController();

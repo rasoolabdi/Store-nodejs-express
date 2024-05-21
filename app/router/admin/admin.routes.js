@@ -18,7 +18,7 @@ router.use("/products",checkPermission([PERMISSIONS.SUPPLIER]),AdminApiProductRo
 router.use("/courses", checkPermission([PERMISSIONS.TEACHER])  ,AdminApiCourseRouter);
 router.use("/chapter"   ,checkPermission([PERMISSIONS.TEACHER , PERMISSIONS.CONTENT_MANAGER]) ,AdminApiChapterRouter);
 router.use("/episode"   ,checkPermission([PERMISSIONS.TEACHER, PERMISSIONS.CONTENT_MANAGER]) ,AdminApiEpisodeRouter)
-router.use("/user"      ,checkPermission([PERMISSIONS.USER])    ,AdminApiUserRouter);
+router.use("/user" ,AdminApiUserRouter);
 router.use("/role"      ,checkPermission([PERMISSIONS.ALL])     ,AdminApiRoleRouter);
 router.use("/permission",checkPermission([PERMISSIONS.ALL])     ,AdminApiPermissionRouter)
 
