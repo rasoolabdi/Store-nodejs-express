@@ -1,5 +1,5 @@
 const { GraphQLObjectType, GraphQLString, GraphQLList } = require("graphql");
-const { AuthorType, CatgoryType } = require("./public.types");
+const { AuthorType, PublicCatgoryType } = require("./public.types");
 
 
 const BlogType = new GraphQLObjectType({
@@ -13,7 +13,7 @@ const BlogType = new GraphQLObjectType({
         image: {type: GraphQLString},
         imageURL: {type: GraphQLString},
         tags: {type: new GraphQLList(GraphQLString)},
-        category: {type: CatgoryType}
+        category: {type: PublicCatgoryType}
     }
 });
 

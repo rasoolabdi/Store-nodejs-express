@@ -1,0 +1,13 @@
+{
+  categories {
+    _id
+    title
+  }
+}
+
+{
+  childOfCategory(parent: "ObjectId") {
+    _id
+    title
+  }
+}
