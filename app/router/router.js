@@ -7,7 +7,6 @@ const { AdminRoutes } = require("./admin/admin.routes");
 const { VerifyAccessToken, checkRole } = require("../middlewares/verifyAccessToken");
 const { graphqlHTTP } = require("express-graphql");
 const router = Router();
-const {graphQLSchema} = require("./../graphql/index.resolver");
 const { graphqlConfig } = require("../utils/graphql.config");
 
 (async() => {
