@@ -11,3 +11,4 @@ function graphqlConfig (req,res){
 module.exports = {
     graphqlConfig
 }
+
