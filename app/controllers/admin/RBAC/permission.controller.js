@@ -28,6 +28,7 @@ class PermissionController extends Controller {
     async createNewPermission(req,res,next) {
         try {
             const {name , description} = await addPermissionSchema.validateAsync(req.body);
+            console.log(name,description);
             await this.findPermissionWithName(name);
             const permission = await PermissionModel.create({name , description});
             if(!permission) {

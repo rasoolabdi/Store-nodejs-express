@@ -50,7 +50,7 @@ async function VerifyAccessTokenInGraphQL(req) {
         console.log("aaa"  + token);
         const {mobile} = JWT.verify(token , ACCESS_TOKEN_SECRET_KEY)
         const user = await UserModel.findOne({ mobile } , {password: 0 , otp: 0});
-        console.log("user" + user);
+        // console.log("user" + user);
         if(!user) {
             throw new createHttpError.Unauthorized(" حساب کاربری شناسایی نشد . لطفا وارد حساب کاربری خود شوید .")
         }
