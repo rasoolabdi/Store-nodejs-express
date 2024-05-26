@@ -44,34 +44,20 @@ function VerifyAccessToken (req,res,next) {
 }
 
 
-function VerifyAccessTokenInGraphQL(req) {
+async function VerifyAccessTokenInGraphQL(req) {
     try {
         const token = getToken(req.headers);
-        JWT.verify(token , ACCESS_TOKEN_SECRET_KEY , async (error , payload) => {
-            try {
-                if(error) {
-                    throw createHttpError.Unauthorized("لطفا وارد حساب کاربری خود شوید .")
-                }
-                else {
-                    const {mobile} = payload || {};
-                    const user = await UserModel.findOne({ mobile } , {password: 0 , otp: 0});
-                    if(!user) {
-                        throw createHttpError.Unauthorized(" حساب کاربری شناسایی نشد . لطفا وارد حساب کاربری خود شوید .")
-                    }
-                    else {
-                        req.user = user;
-                    }
-                }
-            }
-            catch(error) {
-                console.log(error);
-                throw createHttpError.HttpError(error.message);
-            }
-        })
+        console.log("aaa"  + token);
+        const {mobile} = JWT.verify(token , ACCESS_TOKEN_SECRET_KEY)
+        const user = await UserModel.findOne({ mobile } , {password: 0 , otp: 0});
+        console.log("user" + user);
+        if(!user) {
+            throw new createHttpError.Unauthorized(" حساب کاربری شناسایی نشد . لطفا وارد حساب کاربری خود شوید .")
+        }
+        return user;
     }
     catch(error) {
-        console.log(error);
-        throw createHttpError.Unauthorized(error.message)
+        throw createHttpError.Unauthorized("حساب کاربری یافت نشد .")
     }
 }
 
