@@ -3,7 +3,7 @@ const { AuthorType, PublicCatgoryType } = require("./public.types");
 
 
 const BlogType = new GraphQLObjectType({
-    name: "blogType",
+    name: "BlogType",
     fields: {
         _id: {type: GraphQLString},
         author: {type: AuthorType},
@@ -13,7 +13,7 @@ const BlogType = new GraphQLObjectType({
         image: {type: GraphQLString},
         imageURL: {type: GraphQLString},
         tags: {type: new GraphQLList(GraphQLString)},
-        category: {type: PublicCatgoryType}
+        category: {type: PublicCatgoryType},
     }
 });
 

@@ -27,3 +27,43 @@
     }
   }
 }
+
+# set variable and alias with fragment
+
+query getCourses($categoryId: String) {
+  myCourses: courses(category: $categoryId) {
+    ...CourseFields
+  }
+}
+
+# set Alias and  Fragment
+
+fragment CourseFields on CourseType {
+  _id
+  title
+  short_text
+  text
+  image
+  imageURL
+  tags
+  category {
+    _id
+    title
+  }
+  price
+  count
+  discount
+  type
+  teacher {
+    _id
+    first_name
+  }
+  chapters {
+    _id
+    title
+    episodes {
+      _id
+      title
+    }
+  }
+}
