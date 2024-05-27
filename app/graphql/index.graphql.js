@@ -2,6 +2,7 @@ const { GraphQLObjectType, GraphQLSchema, GraphQLInt, GraphQLString, GraphQLList
 const { BlogResolver } = require("./queries/blog.resolver");
 const { ProductResolver } = require("./queries/product.resolver");
 const { CategoryResolver, CategoryChildReslver } = require("./queries/category.resolver");
+const { CourseResolver } = require("./queries/course.resolver");
 
 
 
@@ -11,7 +12,8 @@ const RootQuery = new GraphQLObjectType({
         blogs: BlogResolver,
         products: ProductResolver,
         categories: CategoryResolver,
-        childOfCategory: CategoryChildReslver
+        childOfCategory: CategoryChildReslver,
+        courses: CourseResolver
     }
 });
 
