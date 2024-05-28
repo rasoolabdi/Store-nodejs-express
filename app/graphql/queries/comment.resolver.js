@@ -3,10 +3,11 @@ const { CommentType } = require("../typeDefs/comment.type");
 const BlogModel = require("../../models/blogs");
 const createHttpError = require("http-errors");
 const { VerifyAccessTokenInGraphQL } = require("../../middlewares/verifyAccessToken");
-
+const {StatusCodes: HttpStatus} = require("http-status-codes");
+const { ResponseType } = require("../typeDefs/public.types");
 
 const createCommentForBlog = {
-    type: CommentType,
+    type: ResponseType,
     args: {
         comment: {type: GraphQLString},
         blogID: {type: GraphQLString},
@@ -27,7 +28,12 @@ const createCommentForBlog = {
                 }
             }
         })
-        return {comment , blogID , parent};
+        return {
+            statusCode : HttpStatus.CREATED,
+            data: {
+                message: "ثبت نظر با موفقیت انجام شد. پس از تایید در وب سایت قرار میگیرد."
+            }
+        };
     }
 }
 

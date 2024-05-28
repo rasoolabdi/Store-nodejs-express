@@ -22,6 +22,7 @@ const CommentType = new GraphQLObjectType({
     }
 })
 
+
 module.exports = {
     CommentType
 }
