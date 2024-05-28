@@ -16,7 +16,7 @@
  *                  email:
  *                      type: string
  *                      description: the email of user
- *                      example: rasool@yahoo.com
+ *                      example: M0rd00r@yahoo.com
  *                  username:
  *                      type: string
  *                      description: the username of user
@@ -45,7 +45,7 @@
  *                                      example: "6645e8a9769c918c08c79eef"
  *                                  mobile:
  *                                      type: string
- *                                      example: "09331429284"
+ *                                      example: "0933"
  *                                  first_name:
  *                                      type: string
  *                                      example: rasool
@@ -54,7 +54,7 @@
  *                                      example: abdi
  *                                  email:
  *                                      type: string
- *                                      example: rasool@yahoo.com
+ *                                      example: M0rd00r@yahoo.com
  *                                  username:
  *                                      type: string
  *                                      example: rasool123

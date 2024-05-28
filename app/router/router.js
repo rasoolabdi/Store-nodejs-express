@@ -9,7 +9,7 @@ const { graphqlHTTP } = require("express-graphql");
 const router = Router();
 const { graphqlConfig } = require("../utils/graphql.config");
 
-(async() => {
+(async() => { //test connect to redis
     await redisClient.set("hi" , "hello");
     const value = await redisClient.get("hi");
     console.log(value);

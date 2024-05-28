@@ -44,7 +44,8 @@ module.exports = class Application {
                     contact: {
                         name: "rasool abdi",
                         url: "http://localhost:5001",
-                        email: "M0rd00r@yahoo.com"
+                        email: "M0rd00r@yahoo.com",
+                        telegramID: "@M0rd00r"
                     }
                 },
                 servers: [
