@@ -23,7 +23,7 @@ const BlogSchema = new mongoose.Schema({
     }
 });
 
-BlogSchema.virtual("user" , {
+BlogSchema.virtual("user" ,  {
     ref: "user",
     localField: "_id",
     foreignField: "author"

@@ -34,17 +34,17 @@ module.exports = class Application {
         this.#app.use(express.json());
         this.#app.use(express.urlencoded({extended: true}));
         this.#app.use(express.static(path.join(__dirname, ".." , "public")));
-        this.#app.use("/api-doc" , swaggerUI.serve, swaggerUI.setup(swaggerJsDoc({
+        this.#app.use("/swagger" , swaggerUI.serve, swaggerUI.setup(swaggerJsDoc({
             swaggerDefinition: {
                 openapi: "3.0.0",
                 info: {
                     title: "Shopping",
                     version: "2.0.0",
-                    description: " فروشگاه مجازی نمونه سوالات استخدامی ",
+                    description: " فروشگاه مجازی و فیزیکی ",
                     contact: {
                         name: "rasool abdi",
                         url: "http://localhost:5001",
-                        email: ""
+                        email: "M0rd00r@yahoo.com"
                     }
                 },
                 servers: [
