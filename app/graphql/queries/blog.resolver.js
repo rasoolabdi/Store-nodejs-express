@@ -9,16 +9,9 @@ const BlogResolver = {
     args: {
         category: {type: GraphQLString}
     },
-    resolve: async (_, args , context) => {
+    resolve: async (_, args) => {
         const {category} = args;
         const findQuery = category ? {category} : {};
-        // const {authorization} = context?.req?.body?.variables?.authorization;
-        // const {req} = context;
-        // const user = await VerifyAccessTokenInGraphQL(context?.req?.body?.variables?.authorization);
-        // const user = await VerifyAccessTokenInGraphQL(req?.body?.variables?.authorization);
-        // console.log("uuuu"+user)
-        // req.user = user;
-        // console.log(context)
         return await BlogModel.find(findQuery).populate([{path: "author"} , {path: "category"}]);
     }
 }
