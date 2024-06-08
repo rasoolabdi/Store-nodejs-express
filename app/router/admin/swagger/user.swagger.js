@@ -45,7 +45,7 @@
  *                                      example: "6645e8a9769c918c08c79eef"
  *                                  mobile:
  *                                      type: string
- *                                      example: "0933"
+ *                                      example: "0901"
  *                                  first_name:
  *                                      type: string
  *                                      example: rasool
