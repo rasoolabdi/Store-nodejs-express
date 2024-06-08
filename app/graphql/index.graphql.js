@@ -14,16 +14,14 @@ const RootQuery = new GraphQLObjectType({
         products: ProductResolver,
         categories: CategoryResolver,
         childOfCategory: CategoryChildReslver,
-        courses: CourseResolver
+        courses: CourseResolver,
     }
 });
 
 const RootMutation = new GraphQLObjectType({
     name: "RootMutation",
     fields: {
-        createCommentForBlog: createCommentForBlog,
-
-
+        createCommentForBlog: createCommentForBlog
     }
 });
 

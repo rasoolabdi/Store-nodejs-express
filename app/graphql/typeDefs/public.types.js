@@ -26,16 +26,13 @@ const PublicCatgoryType = new GraphQLObjectType({
     }
 });
 
-
-
 const ResponseType = new GraphQLObjectType({
-    name: "responseType",
+    name: "ResponseType",
     fields: {
-        statusCode : {type: GraphQLString},
+        statusCode: {type: GraphQLString},
         data: {type: AnyType}
     }
 })
-
 
 
 module.exports = {

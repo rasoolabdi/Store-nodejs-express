@@ -9,7 +9,7 @@ const CategoryResolver = {
     //     field: {type: GraphQLString},
     //     authorizationToken : {type: GraphQLString}
     // },
-    resolve: async (obj , args , context , info) => { // (obj , args , context , info)
+    resolve: async (obj , args , context , info) => {
         // console.log(args);
         // console.log(context); 
         // console.log(info);

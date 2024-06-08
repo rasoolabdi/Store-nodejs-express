@@ -13,7 +13,6 @@ const FeaturesType = new GraphQLObjectType({
     }
 });
 
-
 const ProductType =  new GraphQLObjectType({
     name: "ProductType",
     fields: {
