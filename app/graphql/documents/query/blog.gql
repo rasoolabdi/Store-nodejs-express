@@ -13,5 +13,18 @@
       title
       _id
     }
+    comments {
+      _id
+      comment
+      show
+      openToComment
+      createdAt
+      answers {
+        _id
+        comment
+        show
+        createdAt
+      }
+    }
   }
 }

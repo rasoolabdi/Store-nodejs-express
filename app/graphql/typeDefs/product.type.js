@@ -1,5 +1,6 @@
 const { GraphQLObjectType, GraphQLString, GraphQLList, GraphQLInt } = require("graphql");
 const { UserType, PublicCatgoryType } = require("./public.types");
+const { CommentType } = require("./comment.type");
 
 const FeaturesType = new GraphQLObjectType({
     name: "Featares",
@@ -30,7 +31,8 @@ const ProductType =  new GraphQLObjectType({
         count: {type: GraphQLInt},
         discount: {type: GraphQLInt},
         type: {type: GraphQLString},
-        features: {type: FeaturesType}
+        features: {type: FeaturesType},
+        comments: {type: new GraphQLList(CommentType)}
     }
 });
 

@@ -3,7 +3,7 @@ const { BlogResolver } = require("./queries/blog.resolver");
 const { ProductResolver } = require("./queries/product.resolver");
 const { CategoryResolver, CategoryChildReslver } = require("./queries/category.resolver");
 const { CourseResolver } = require("./queries/course.resolver");
-const { createCommentForBlog } = require("./queries/comment.resolver");
+const { createCommentForBlog, createCommentForCourse, createCommentForProduct } = require("./mutations/comment.resolver");
 
 
 
@@ -21,7 +21,9 @@ const RootQuery = new GraphQLObjectType({
 const RootMutation = new GraphQLObjectType({
     name: "RootMutation",
     fields: {
-        createCommentForBlog: createCommentForBlog
+        createCommentForBlog: createCommentForBlog,
+        createCommentForCourse: createCommentForCourse,
+        createCommentForProduct: createCommentForProduct
     }
 });
 

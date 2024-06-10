@@ -1,0 +1,10 @@
+mutation {
+  createCommentForProduct(
+    comment: "بله"
+    productId: "662cdf2315e9dc63e099c0fd"
+    parent: "66669b199f4250e07511ec10"
+  ) {
+    statusCode
+    data
+  }
+}

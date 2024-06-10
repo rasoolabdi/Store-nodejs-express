@@ -1,5 +1,5 @@
 {
-  courses {
+  courses(category: "ObjectId") {
     _id
     title
     short_text
@@ -17,6 +17,19 @@
     imageURL
     price
     discount
+    comments {
+      _id
+      comment
+      show
+      openToComment
+      createdAt
+      answers {
+        _id
+        comment
+        show
+        createdAt
+      }
+    }
     chapters {
       _id
       title
@@ -64,6 +77,19 @@ fragment CourseFields on CourseType {
     episodes {
       _id
       title
+    }
+  }
+  comments {
+    _id
+    comment
+    show
+    openToComment
+    createdAt
+    answers {
+      _id
+      comment
+      show
+      createdAt
     }
   }
 }
