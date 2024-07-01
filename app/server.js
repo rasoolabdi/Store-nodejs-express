@@ -8,6 +8,12 @@ const swaggerJsDoc = require("swagger-jsdoc");
 const cors = require("cors");
 require("dotenv").config();
 const { AllRoutes } = require("./router/router");
+const ExpressEjsLayouts = require("express-ejs-layouts");
+const { initialSocket } = require("./utils/initSocket");
+const { socketHandler } = require("./socket.io");
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
+const { COOKIE_PARSER_SECRET_KEY } = require("./utils/constant");
 
 
 
@@ -20,11 +26,13 @@ module.exports = class Application {
         this.#PORT = PORT;
         this.#DB_URI = DB_URI
         this.configApplication();
+        this.initTemplateEngin();
         this.connectToMongoDB();
         this.createServer();
         this.createRoutes();
         this.errorHandling();
         this.initRedis();
+        this.initClientSession();
     }
 
     configApplication() {
@@ -38,14 +46,13 @@ module.exports = class Application {
             swaggerDefinition: {
                 openapi: "3.0.0",
                 info: {
-                    title: "Shopping",
+                    title: "Shopping", 
                     version: "2.0.0",
-                    description: " فروشگاه مجازی و فیزیکی ",
+                    description: " فروشگاه مجازی نمونه سوالات استخدامی ",
                     contact: {
                         name: "rasool abdi",
                         url: "http://localhost:5001",
-                        email: "M0rd00r@yahoo.com",
-                        telegramID: "@M0rd00r"
+                        email: ""
                     }
                 },
                 servers: [
@@ -68,12 +75,14 @@ module.exports = class Application {
             }),
             {explorer: true}            
         ))
-
     }
 
     createServer() {
         const http = require("http");
-        http.createServer(this.#app).listen(this.#PORT , () => {
+        const server = http.createServer(this.#app);
+        const io = initialSocket(server);
+        socketHandler(io);
+        server.listen(this.#PORT , () => {
             console.log(`Application is running on port ${this.#PORT}`)
         })
     }
@@ -101,9 +110,28 @@ module.exports = class Application {
     }
 
     initRedis() {
-        require("./utils/init_redis");
-        
+        require("./utils/initRedis");
+    }
 
+    initTemplateEngin() {
+        this.#app.use(ExpressEjsLayouts);
+        this.#app.set("view engine" , "ejs");
+        this.#app.set("views" , "resource/views");
+        this.#app.set("layout extractStyles" , true);
+        this.#app.set("layout extractScripts" , true);
+        this.#app.set("layout" , "./layouts/master");
+    }
+
+    initClientSession() {
+        this.#app.use(cookieParser(COOKIE_PARSER_SECRET_KEY));
+        this.#app.use(session({
+            secret: COOKIE_PARSER_SECRET_KEY,
+            resave: true,
+            saveUninitialized: true,
+            cookie: {
+                secure: true
+            }
+        }))
     }
 
     createRoutes() {
